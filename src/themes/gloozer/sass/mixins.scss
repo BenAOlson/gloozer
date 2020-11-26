@@ -1,0 +1,6 @@
+@mixin euiButton {
+  &:hover:not([class*='isDisabled']),
+  &:focus {
+    text-decoration: none;
+  }
+}

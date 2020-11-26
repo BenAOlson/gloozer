@@ -1,0 +1,16 @@
+@import '~@elastic/eui/src/themes/eui-amsterdam/eui_amsterdam_colors_dark';
+
+// Core
+// $euiColorPrimary: #ff2323;
+// $euiColorPrimary: #238cff;
+$euiColorPrimary: #59ff23;
+// $euiColorPrimary: #d66e19;
+// $euiColorPrimary: #615040;
+// $euiColorPrimary: #5f4933;
+
+// // Status
+// $euiColorSuccess: $euiColorPrimary;
+
+// Contrasty text variants
+$euiColorPrimaryText: $euiColorPrimary;
+$euiColorPrimaryText: makeHighContrastColor($euiColorPrimary);

@@ -1,15 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
-import App from 'features/App'
+// import './index.scss'
+import App from 'features/app'
 import FirebaseProvider from 'features/firebase'
 // import reportWebVitals from './reportWebVitals'
-import '@elastic/eui/dist/eui_theme_amsterdam_dark.css'
+import 'themes/gloozer/sass/gloozer-theme.scss'
+import UserProvider from 'features/firebase/user-context'
 
 ReactDOM.render(
   <React.StrictMode>
     <FirebaseProvider>
-      <App />
+      <UserProvider>
+        <App />
+      </UserProvider>
     </FirebaseProvider>
   </React.StrictMode>,
   document.getElementById('root')

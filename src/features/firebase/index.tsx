@@ -1,5 +1,5 @@
 import React, { createContext } from 'react'
-import firebase from 'firebase/app'
+import firebase from 'firebase'
 
 const fbConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,

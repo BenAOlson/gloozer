@@ -1,0 +1,13 @@
+// This file generates a blob file that has a dark background
+
+// If you want to change the dark theme, replace this line
+@import './gloozer-color.scss';
+@import '~@elastic/eui/src/themes/eui-amsterdam/eui_amsterdam_globals';
+
+// These are required
+// Imported global styling from EUI
+@import '~@elastic/eui/src/themes/eui-amsterdam/global_styling/index';
+@import '~@elastic/eui/src/components/index';
+// @import '../components/index';
+
+@import '~@elastic/eui/src/themes/eui-amsterdam/overrides/index';
