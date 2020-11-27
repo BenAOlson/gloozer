@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
+import firebase from 'firebase/app'
 import {
   EuiButton,
   EuiButtonEmpty,
@@ -16,9 +17,8 @@ import {
   EuiSwitch,
 } from '@elastic/eui'
 import { FaRegEnvelope } from 'react-icons/fa'
-import { FirebaseContext } from 'features/firebase'
 
-const validationFields = ['email', 'password'] as const
+const validationFields = ['email', 'password', 'general'] as const
 type ValidationFields = typeof validationFields[number]
 type Errors = {
   [key in typeof validationFields[number]]: {
@@ -37,6 +37,10 @@ const EmailSignin = () => {
       msg: '',
     },
     password: {
+      isError: false,
+      msg: '',
+    },
+    general: {
       isError: false,
       msg: '',
     },
@@ -60,11 +64,32 @@ const EmailSignin = () => {
     }
   }
 
-  const firebase = useContext(FirebaseContext)
   const auth = firebase.auth()
 
   const onSwitchChange = () => {
     setIsNewChecked((prevIsChecked) => !prevIsChecked)
+  }
+
+  const handleFirebaseErrors = (err: any) => {
+    console.error(err)
+    setErrors((prevErrors) => {
+      const isEmail = (err.message as string)
+        .toLocaleLowerCase()
+        .includes('email')
+      const isPassword = (err.message as string)
+        .toLocaleLowerCase()
+        .includes('password')
+      const errObj = { isError: true, msg: err.message }
+      const errors: Errors = { ...prevErrors }
+      if (isEmail) errors['email'] = errObj
+      if (isPassword) errors['password'] = errObj
+      if (!(isEmail || isPassword)) {
+        errors['general'] = errObj
+      } else {
+        errors['general'] = { isError: false, msg: '' }
+      }
+      return errors
+    })
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -72,10 +97,10 @@ const EmailSignin = () => {
     const email = e.currentTarget.email.value
     const password = e.currentTarget.password.value
     const isNew = isNewChecked
-    const first = e.currentTarget.first?.value
-    const last = e.currentTarget.last?.value
+    const userName = e.currentTarget.userName?.value
     if (!(email || password)) {
-      setErrors({
+      setErrors((errors) => ({
+        ...errors,
         email: {
           isError: !email,
           msg: !email ? `Enter an email to sign ${inOrUp}` : '',
@@ -84,7 +109,7 @@ const EmailSignin = () => {
           isError: !password,
           msg: !password ? `Enter a password to sign ${inOrUp}` : '',
         },
-      })
+      }))
       return
     }
     setIsLoading(true)
@@ -94,14 +119,13 @@ const EmailSignin = () => {
         await auth.createUserWithEmailAndPassword(email, password)
         console.log('success!')
         await auth.currentUser?.updateProfile({
-          displayName: `${first} ${last}`,
+          displayName: userName,
         })
+        setIsOpen(false)
       } catch (err) {
-        console.error('failure!')
-        console.error(err)
+        handleFirebaseErrors(err)
       }
       setIsLoading(false)
-      setIsOpen(false)
       return
     }
 
@@ -109,8 +133,7 @@ const EmailSignin = () => {
       await auth.signInWithEmailAndPassword(email, password)
       console.log('success!')
     } catch (err) {
-      console.error('failure!')
-      console.error(err)
+      handleFirebaseErrors(err)
     }
 
     setIsOpen(false)
@@ -178,15 +201,8 @@ const EmailSignin = () => {
                 </EuiFormRow>
                 {isNewChecked && (
                   <>
-                    <EuiFormRow
-                      label="First name"
-                      helpText="optional"
-                      fullWidth
-                    >
-                      <EuiFieldText name="first" fullWidth />
-                    </EuiFormRow>
-                    <EuiFormRow label="Last name" helpText="optional" fullWidth>
-                      <EuiFieldText name="last" fullWidth />
+                    <EuiFormRow label="Your name" helpText="optional" fullWidth>
+                      <EuiFieldText name="userName" fullWidth />
                     </EuiFormRow>
                   </>
                 )}
