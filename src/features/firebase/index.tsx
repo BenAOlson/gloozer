@@ -1,5 +1,9 @@
 import React, { createContext } from 'react'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/functions'
+import 'firebase/auth'
+import 'firebase/database'
+import RemoveWarning from './remove-warning'
 
 const fbConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -12,14 +16,17 @@ const fbConfig = {
   // measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 }
 
-// const defaultFirebase = firebase.initializeApp(fbConfig)
+const isDevel = process.env.NODE_ENV === 'development'
+
 const defaultFirebase = firebase.initializeApp(fbConfig)
-// const functions = defaultFirebase.functions()
+
 //enable for local functions development
-// if (process.env.NODE_ENV === 'development') {
-//   // functions.useFunctionsEmulator('http://localhost:5001')
-//   functions.useEmulator('localhost', 5001)
-// }
+if (isDevel) {
+  defaultFirebase.functions().useEmulator('localhost', 5001)
+  defaultFirebase.auth().useEmulator('http://localhost:9099/')
+  defaultFirebase.database().useEmulator('localhost', 9000)
+}
+
 // defaultFirebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
 // defaultFirebase.firestore().settings({ experimentalForceLongPolling: true })
 
@@ -29,6 +36,9 @@ export const FirebaseContext = createContext<Firebase>(defaultFirebase)
 const FirebaseProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <FirebaseContext.Provider value={defaultFirebase}>
+      {/* Remove for production builds */}
+      {isDevel && <RemoveWarning />}
+      {/* End Remove */}
       {children}
     </FirebaseContext.Provider>
   )
