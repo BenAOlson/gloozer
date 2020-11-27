@@ -117,7 +117,6 @@ const EmailSignin = () => {
     if (isNew) {
       try {
         await auth.createUserWithEmailAndPassword(email, password)
-        console.log('success!')
         await auth.currentUser?.updateProfile({
           displayName: userName,
         })
@@ -131,12 +130,11 @@ const EmailSignin = () => {
 
     try {
       await auth.signInWithEmailAndPassword(email, password)
-      console.log('success!')
+      setIsOpen(false)
     } catch (err) {
       handleFirebaseErrors(err)
     }
 
-    setIsOpen(false)
     setIsLoading(false)
   }
 

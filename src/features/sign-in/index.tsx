@@ -14,7 +14,7 @@ import EmailSignin from './buttons/email-signin'
 import { UserContext } from 'features/firebase/user-context'
 import GoogleSignin from './buttons/google-signin'
 import FacebookSignin from './buttons/facebook-signin'
-// import MircosoftSignin from './buttons/microsoft-signin'
+import MircosoftSignin from './buttons/microsoft-signin'
 import GithubSignin from './buttons/github-signin'
 import YahooSignin from './buttons/yahoo-signin'
 
@@ -65,7 +65,6 @@ const SignIn = ({}: SignInProps) => {
               <GithubSignin />
               <EuiSpacer size="m" />
               <EmailSignin />
-              <EuiSpacer size="m" />
             </>
           )}
         </EuiPageContentBody>

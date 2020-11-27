@@ -1,8 +1,7 @@
 import firebase from 'firebase/app'
 import React from 'react'
-import { EuiButton } from '@elastic/eui'
 import { FaMicrosoft } from 'react-icons/fa'
-import useFirebaseProviderSignin from './use-firebase-provider-signin'
+import OauthSigninButton from '../oauth-signin-button'
 
 const MircosoftSignin = () => {
   const provider = new firebase.auth.OAuthProvider('microsoft.com')
@@ -10,18 +9,15 @@ const MircosoftSignin = () => {
     prompt: 'consent',
     // tenant: 'the tenant id provided by outlook',
   })
-  const signIn = useFirebaseProviderSignin()
 
   return (
-    <EuiButton
-      color="text"
-      fill={false}
-      fullWidth
-      iconType={FaMicrosoft}
-      onClick={signIn(provider)}
+    <OauthSigninButton
+      icon={FaMicrosoft}
+      provider={provider}
+      providerName="Github"
     >
       No one signs in with Microsoft
-    </EuiButton>
+    </OauthSigninButton>
   )
 }
 
