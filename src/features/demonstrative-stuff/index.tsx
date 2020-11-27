@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  EuiBadge,
   EuiButton,
   EuiFlexGroup,
   EuiFlexItem,
@@ -169,6 +170,17 @@ const DemonstrativeStuff = ({}: DemonstrativeStuffProps) => {
               <EuiButton isDisabled size="s" fill onClick={() => {}}>
                 Small and filled
               </EuiButton>
+            </EuiFlexItem>
+          </EuiFlexGroup>
+          <EuiFlexGroup gutterSize="s" alignItems="center">
+            <EuiFlexItem grow={false}>
+              <EuiBadge color="accent">accent</EuiBadge>
+            </EuiFlexItem>
+            <EuiFlexItem grow={false}>
+              <EuiBadge color="accent">accent</EuiBadge>
+            </EuiFlexItem>
+            <EuiFlexItem grow={false}>
+              <EuiBadge color="accent">accent</EuiBadge>
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiPageContentBody>
