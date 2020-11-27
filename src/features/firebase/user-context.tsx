@@ -1,18 +1,10 @@
 import firebase from 'firebase/app'
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
-import { FirebaseContext } from 'features/firebase'
+import React, { createContext, useEffect, useRef, useState } from 'react'
 
 export const UserContext = createContext<firebase.User | null>(null)
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const firebaseCtx = useContext(FirebaseContext)
-  const auth = firebaseCtx.auth()
+  const auth = firebase.auth()
   const currentUser = auth.currentUser
   const [user, setUser] = useState<typeof currentUser>(null)
   const unsubRef = useRef<firebase.Unsubscribe | null>()

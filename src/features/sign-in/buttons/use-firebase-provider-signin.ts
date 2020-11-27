@@ -1,10 +1,7 @@
 import firebase from 'firebase/app'
-import { FirebaseContext } from 'features/firebase'
-import { useContext } from 'react'
 
 const useFirebaseProviderSignin = () => {
-  const firebaseCtx = useContext(FirebaseContext)
-  const auth = firebaseCtx.auth()
+  const auth = firebase.auth()
 
   const signIn = (provider: firebase.auth.AuthProvider) => async (
     e: unknown
