@@ -1,22 +1,15 @@
 import firebase from 'firebase/app'
-import { EuiButton } from '@elastic/eui'
 import React from 'react'
 import { FaGoogle } from 'react-icons/fa'
-import useFirebaseProviderSignin from './use-firebase-provider-signin'
+import OauthSigninButton from '../oauth-signin-button'
 
 const GoogleSignin = () => {
   const provider = new firebase.auth.GoogleAuthProvider()
-  const signIn = useFirebaseProviderSignin()
 
   return (
-    <EuiButton
-      color="text"
-      fullWidth
-      iconType={FaGoogle}
-      onClick={signIn(provider)}
-    >
+    <OauthSigninButton icon={FaGoogle} provider={provider} providerName="Googs">
       Sign in with Googs
-    </EuiButton>
+    </OauthSigninButton>
   )
 }
 

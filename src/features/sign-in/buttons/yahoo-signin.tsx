@@ -1,23 +1,19 @@
 import firebase from 'firebase/app'
 import React from 'react'
-import { EuiButton } from '@elastic/eui'
 import { SiYahoo } from 'react-icons/si'
-import useFirebaseProviderSignin from './use-firebase-provider-signin'
+import OauthSigninButton from '../oauth-signin-button'
 
 const YahooSignin = () => {
   var provider = new firebase.auth.OAuthProvider('yahoo.com')
-  const signIn = useFirebaseProviderSignin()
 
   return (
-    <EuiButton
-      color="text"
-      fill={false}
-      fullWidth
-      iconType={SiYahoo}
-      onClick={signIn(provider)}
+    <OauthSigninButton
+      icon={SiYahoo}
+      provider={provider}
+      providerName="Ya-hooOOooOooo!"
     >
       Sign in with <span style={{ fontStyle: 'italic' }}>Ya-hooOOooOooo!</span>
-    </EuiButton>
+    </OauthSigninButton>
   )
 }
 

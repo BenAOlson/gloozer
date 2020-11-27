@@ -66,9 +66,6 @@ const SignIn = ({}: SignInProps) => {
               <EuiSpacer size="m" />
               <EmailSignin />
               <EuiSpacer size="m" />
-              <EuiButton color="text" fill={false} fullWidth>
-                look at this
-              </EuiButton>
             </>
           )}
         </EuiPageContentBody>

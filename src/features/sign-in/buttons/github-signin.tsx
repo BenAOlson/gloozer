@@ -1,23 +1,19 @@
 import firebase from 'firebase/app'
 import React from 'react'
-import { EuiButton } from '@elastic/eui'
 import { FaGithub } from 'react-icons/fa'
-import useFirebaseProviderSignin from './use-firebase-provider-signin'
+import OauthSigninButton from '../oauth-signin-button'
 
 const GithubSignin = () => {
   const provider = new firebase.auth.GithubAuthProvider()
-  const signIn = useFirebaseProviderSignin()
 
   return (
-    <EuiButton
-      color="text"
-      fill={false}
-      fullWidth
-      iconType={FaGithub}
-      onClick={signIn(provider)}
+    <OauthSigninButton
+      icon={FaGithub}
+      provider={provider}
+      providerName="Github"
     >
       {'//TODO: fix this'}
-    </EuiButton>
+    </OauthSigninButton>
   )
 }
 
