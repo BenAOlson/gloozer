@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { FirebaseContext } from 'features/firebase'
+import firebase from 'firebase/app'
 import {
   EuiPageContent,
   EuiPageContentHeader,
@@ -14,7 +14,7 @@ import EmailSignin from './buttons/email-signin'
 import { UserContext } from 'features/firebase/user-context'
 import GoogleSignin from './buttons/google-signin'
 import FacebookSignin from './buttons/facebook-signin'
-import MircosoftSignin from './buttons/microsoft-signin'
+// import MircosoftSignin from './buttons/microsoft-signin'
 import GithubSignin from './buttons/github-signin'
 import YahooSignin from './buttons/yahoo-signin'
 
@@ -22,7 +22,6 @@ type SignInProps = {
   //
 }
 const SignIn = ({}: SignInProps) => {
-  const firebase = useContext(FirebaseContext)
   const user = useContext(UserContext)
   const auth = firebase.auth()
 
