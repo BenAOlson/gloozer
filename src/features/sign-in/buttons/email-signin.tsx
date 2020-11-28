@@ -17,54 +17,23 @@ import {
   EuiSwitch,
 } from '@elastic/eui'
 import { FaRegEnvelope } from 'react-icons/fa'
+import { useModalForm } from 'features/common/hooks/use-modal-form'
 
-const validationFields = ['email', 'password', 'general'] as const
-type ValidationFields = typeof validationFields[number]
-type Errors = {
-  [key in typeof validationFields[number]]: {
-    isError: boolean
-    msg: string
-  }
-}
 const EmailSignin = () => {
-  //TODO: combine isOpen and isLoading to minimize double renders
+  //TODO: move isOpen state above modal
   const [isOpen, setIsOpen] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
   const [isNewChecked, setIsNewChecked] = useState(false)
-  const [errors, setErrors] = useState<Errors>({
-    email: {
-      isError: false,
-      msg: '',
-    },
-    password: {
-      isError: false,
-      msg: '',
-    },
-    general: {
-      isError: false,
-      msg: '',
-    },
-  })
-
-  const inOrUp = isNewChecked ? 'up' : 'in'
-  const errorMsgs: string[] = []
-  validationFields.forEach((key) => {
-    const msg: string = errors[key].msg
-    msg && errorMsgs.push(msg)
-  })
-
-  const clearError = (field: ValidationFields) => (
-    e: React.ChangeEvent<unknown>
-  ) => {
-    if (errors[field].isError) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [field]: { isError: false, msg: '' },
-      }))
-    }
-  }
+  const {
+    errs,
+    setErrs,
+    errMsgs,
+    clearErr,
+    isLoading,
+    setIsLoading,
+  } = useModalForm(['email', 'password', 'general'])
 
   const auth = firebase.auth()
+  const inOrUp = isNewChecked ? 'up' : 'in'
 
   const onSwitchChange = () => {
     setIsNewChecked((prevIsChecked) => !prevIsChecked)
@@ -72,41 +41,43 @@ const EmailSignin = () => {
 
   const handleFirebaseErrors = (err: any) => {
     console.error(err)
-    setErrors((prevErrors) => {
+    setErrs((prevErrors) => {
       const isEmail = (err.message as string)
         .toLocaleLowerCase()
         .includes('email')
       const isPassword = (err.message as string)
         .toLocaleLowerCase()
         .includes('password')
-      const errObj = { isError: true, msg: err.message }
-      const errors: Errors = { ...prevErrors }
-      if (isEmail) errors['email'] = errObj
-      if (isPassword) errors['password'] = errObj
+      const errObj = { isErr: true, msg: err.message }
+      const errs = { ...prevErrors }
+      if (isEmail) errs['email'] = errObj
+      if (isPassword) errs['password'] = errObj
       if (!(isEmail || isPassword)) {
-        errors['general'] = errObj
+        errs['general'] = errObj
       } else {
-        errors['general'] = { isError: false, msg: '' }
+        errs['general'] = { isErr: false, msg: '' }
       }
-      return errors
+      return errs
     })
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    console.log('handleSubmit')
+
     const email = e.currentTarget.email.value
     const password = e.currentTarget.password.value
     const isNew = isNewChecked
     const userName = e.currentTarget.userName?.value
-    if (!(email || password)) {
-      setErrors((errors) => ({
-        ...errors,
+    if (!(email && password)) {
+      setErrs((errs) => ({
+        ...errs,
         email: {
-          isError: !email,
+          isErr: !email,
           msg: !email ? `Enter an email to sign ${inOrUp}` : '',
         },
         password: {
-          isError: !password,
+          isErr: !password,
           msg: !password ? `Enter a password to sign ${inOrUp}` : '',
         },
       }))
@@ -164,27 +135,35 @@ const EmailSignin = () => {
               <EuiForm
                 component="form"
                 onSubmit={handleSubmit}
-                error={errorMsgs}
-                isInvalid={!!errorMsgs.length}
+                error={errMsgs}
+                isInvalid={!!errMsgs.length}
                 id="email-form"
               >
-                <EuiFormRow label="Email" fullWidth>
+                <EuiFormRow
+                  label="Email"
+                  isInvalid={errs.email.isErr}
+                  fullWidth
+                >
                   <EuiFieldText
                     name="email"
                     type="email"
-                    onChange={clearError('email')}
+                    onChange={clearErr('email')}
                     fullWidth
-                    isInvalid={errors.email.isError}
+                    isInvalid={errs.email.isErr}
                   />
                 </EuiFormRow>
 
-                <EuiFormRow label="Password" fullWidth>
+                <EuiFormRow
+                  label="Password"
+                  isInvalid={errs.password.isErr}
+                  fullWidth
+                >
                   <EuiFieldPassword
                     name="password"
                     placeholder="Enter a password"
                     type="dual"
-                    onChange={clearError('password')}
-                    isInvalid={errors.password.isError}
+                    onChange={clearErr('password')}
+                    isInvalid={errs.password.isErr}
                     fullWidth
                   />
                 </EuiFormRow>

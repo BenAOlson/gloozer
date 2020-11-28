@@ -18,6 +18,7 @@ import { BoolSetState } from 'types'
 import IconSelector from './icon-selector'
 import { ComboOption } from './types'
 import { GlobalToastContext } from 'features/global-toast'
+import { useModalForm } from 'features/common/hooks/use-modal-form'
 
 type CreatePartyModalProps = {
   setIsOpen: BoolSetState
@@ -27,13 +28,36 @@ const CreatePartyModal = ({ setIsOpen }: CreatePartyModalProps) => {
   const [selectedIconOptions, setSelectedIconOptions] = useState<
     ComboOption[]
   >()
-  const [isLoading, setIsLoading] = useState(false)
+  const {
+    errs,
+    setErrs,
+    errMsgs,
+    clearErr,
+    isLoading,
+    setIsLoading,
+  } = useModalForm(['partyName', 'iconName', 'general'])
   const closeModal = () => {
     setIsOpen(false)
   }
 
-  const createParty = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const partyName = e.currentTarget.partyName.value
+    if (!(partyName && selectedIconOptions)) {
+      console.log('whoops!')
+      setErrs((errs) => ({
+        ...errs,
+        partyName: {
+          isErr: !partyName,
+          msg: !partyName ? `Enter a party name` : '',
+        },
+        iconName: {
+          isErr: !selectedIconOptions,
+          msg: !selectedIconOptions ? `Choose a party icon (it's...fun)` : '',
+        },
+      }))
+      return
+    }
     setIsLoading(true)
     const displayName = e.currentTarget.partyName.value
     const db = firebase.database()
@@ -84,28 +108,31 @@ const CreatePartyModal = ({ setIsOpen }: CreatePartyModalProps) => {
         </EuiModalHeader>
 
         <EuiModalBody>
-          {/* {selectedIconOptions?.[0].value && <EuiIcon type={getIcon()} />} */}
-          {/* <Suspense fallback={<div>loading...</div>}>
-            <SelectedIcon />
-          </Suspense> */}
           <EuiForm
             component="form"
-            onSubmit={createParty}
-            // error={errorMsgs}
-            // isInvalid={!!errorMsgs.length}
+            onSubmit={handleSubmit}
+            error={errMsgs}
+            isInvalid={!!errMsgs.length}
             id="party-form"
           >
-            <EuiFormRow label="Party name" fullWidth>
+            <EuiFormRow
+              label="Party name"
+              isInvalid={errs.partyName.isErr}
+              fullWidth
+            >
               <EuiFieldText
                 name="partyName"
+                isInvalid={errs.partyName.isErr}
+                onChange={clearErr('partyName')}
                 fullWidth
-                // isInvalid={errors.email.isError}
               />
             </EuiFormRow>
-            <EuiFormRow label="Icon" fullWidth>
+            <EuiFormRow label="Icon" isInvalid={errs.iconName.isErr} fullWidth>
               <IconSelector
                 selectedIconOptions={selectedIconOptions}
                 setSelectedIconOptions={setSelectedIconOptions}
+                onChange={clearErr('iconName')}
+                isInvalid={errs.iconName.isErr}
               />
             </EuiFormRow>
           </EuiForm>

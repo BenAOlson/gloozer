@@ -1,16 +1,20 @@
 import { SetState } from 'types'
 import { ComboOption } from './types'
-import React, { useState } from 'react'
+import React from 'react'
 import * as icons from 'react-icons/gi'
-import { EuiComboBox, EuiComboBoxOptionOption, EuiIcon } from '@elastic/eui'
+import { EuiComboBox, EuiIcon } from '@elastic/eui'
 
 type IconSelectorProps = {
   selectedIconOptions: ComboOption[] | undefined
   setSelectedIconOptions: SetState<ComboOption[] | undefined>
+  onChange?: (e: any) => void
+  isInvalid?: boolean
 }
 const IconSelector = ({
   selectedIconOptions,
   setSelectedIconOptions,
+  onChange,
+  isInvalid,
 }: IconSelectorProps) => {
   const iconKeys = Object.keys(icons)
   // const [selectedOptions, setSelectedOptions] = useState<ComboOption[]>()
@@ -19,9 +23,10 @@ const IconSelector = ({
 
   const options = getIconOptions(iconKeys)
 
-  const onChange = (selectedOptions: ComboOption[]) => {
+  const onBoxChange = (selectedOptions: ComboOption[]) => {
     // We should only get back either 0 or 1 options.
     setSelectedIconOptions(selectedOptions)
+    if (onChange) onChange(null)
   }
 
   const renderOption = (
@@ -45,8 +50,9 @@ const IconSelector = ({
       singleSelection={{ asPlainText: true }}
       options={options}
       selectedOptions={selectedIconOptions}
-      onChange={onChange}
+      onChange={onBoxChange}
       renderOption={renderOption}
+      isInvalid={isInvalid}
     />
   )
 }
