@@ -60,7 +60,6 @@ const OauthSigninButton = ({
         </>
       )}
       <EuiButton
-        color="text"
         className={className}
         fullWidth
         iconType={icon}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { EuiPageBody, EuiPageContent, EuiPageContentBody } from '@elastic/eui'
-import CreateParty from 'features/create-party'
+import CreateParty from 'features/party/create-party'
 
 type UserDashProps = {
   //

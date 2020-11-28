@@ -18,10 +18,12 @@
   * parties[]
     * uuid
     * displayName
+    * iconName
     * isAdmin?? //maybe? Could be useful for display purpose, but not sure what else
  
 * parties (uuid)
   * displayName
+  * iconName
   * users[]
     * uid
     * displayName

@@ -155,7 +155,7 @@ const EmailSignin = () => {
       </EuiButton>
       {isOpen && (
         <EuiOverlayMask onClick={closeModal}>
-          <EuiModal onClose={closeModal} initialFocus="[name=popswitch]">
+          <EuiModal onClose={closeModal} initialFocus="[name=email]">
             <EuiModalHeader>
               <EuiModalHeaderTitle>Sign {inOrUp}</EuiModalHeaderTitle>
             </EuiModalHeader>

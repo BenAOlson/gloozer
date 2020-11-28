@@ -1,72 +1,53 @@
+import React, { useEffect, useState } from 'react'
+import firebase from 'firebase/app'
 import {
   htmlIdGenerator,
-  EuiAvatar,
   EuiHeaderSectionItemButton,
   EuiPopover,
   EuiSelectable,
   EuiPopoverTitle,
   EuiPopoverFooter,
   EuiButton,
-  ExclusiveUnion,
+  EuiIcon,
 } from '@elastic/eui'
-import {
-  EuiSelectableGroupLabelOption,
-  EuiSelectableLIOption,
-} from '@elastic/eui/src/components/selectable/selectable_option'
-import React, { useState } from 'react'
+import PartyIcon from 'features/party/party-icon'
 
-type HeaderPartiesMenuProps = {
-  //
+type SelectableOption = {
+  label: string
+  prepend?: React.ReactNode
+  checked?: string | null
 }
-const HeaderPartiesMenu = ({}: HeaderPartiesMenuProps) => {
-  const id = htmlIdGenerator()()
-  const spacesValues = [
-    {
-      label: 'Sales team',
-      prepend: <EuiAvatar type="space" name="Sales Team" size="s" />,
-      checked: 'on',
-    },
-    {
-      label: 'Engineering',
-      prepend: <EuiAvatar type="space" name="Engineering" size="s" />,
-    },
-    {
-      label: 'Security',
-      prepend: <EuiAvatar type="space" name="Security" size="s" />,
-    },
-    {
-      label: 'Default',
-      prepend: <EuiAvatar type="space" name="Default" size="s" />,
-    },
-  ]
-
-  const additionalSpaces = [
-    {
-      label: 'Sales team 2',
-      prepend: <EuiAvatar type="space" name="Sales Team 2" size="s" />,
-    },
-    {
-      label: 'Engineering 2',
-      prepend: <EuiAvatar type="space" name="Engineering 2" size="s" />,
-    },
-    {
-      label: 'Security 2',
-      prepend: <EuiAvatar type="space" name="Security 2" size="s" />,
-    },
-    {
-      label: 'Default 2',
-      prepend: <EuiAvatar type="space" name="Default 2" size="s" />,
-    },
-  ]
-
-  const [spaces, setSpaces] = useState<any>(spacesValues)
-  const [selectedSpace, setSelectedSpace] = useState(
-    spaces.filter((option: any) => option.checked)[0]
-  )
+const HeaderPartiesMenu = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const [parties, setParties] = useState<SelectableOption[]>([])
+  const id = htmlIdGenerator()()
+  const user = firebase.auth().currentUser
+
+  useEffect(() => {
+    const db = firebase.database()
+    const ref = db.ref(`users/${user?.uid}/parties`)
+    ref.on('value', (snapshot) => {
+      const partiesVal = snapshot.val()
+      const partyOptions = Object.keys(partiesVal).map((key, i) => {
+        const { displayName, iconName } = partiesVal[key]
+        return {
+          label: displayName,
+          // prepend: <EuiAvatar type="space" name={displayName} size="s" />,
+          prepend: <PartyIcon iconName={iconName} />,
+          //TODO: set checked state for 'active' party for user
+          checked: i === 0 ? 'on' : null, //conditionally set for active party
+        }
+      })
+      setParties(partyOptions ?? [])
+    })
+    return () => {
+      ref.off()
+      setParties([])
+    }
+  }, [user])
 
   const isListExtended = () => {
-    return spaces.length > 4 ? true : false
+    return parties.length > 6
   }
 
   const onMenuButtonClick = () => {
@@ -78,15 +59,11 @@ const HeaderPartiesMenu = ({}: HeaderPartiesMenuProps) => {
   }
 
   const onChange = (options: any) => {
-    setSpaces(options)
-    setSelectedSpace(options.filter((option: any) => option.checked)[0])
+    setParties(options)
     setIsOpen(false)
   }
 
-  const addMoreSpaces = () => {
-    setSpaces(spaces.concat(additionalSpaces))
-  }
-
+  const selectedParty = parties.filter((option: any) => option.checked)[0]
   const button = (
     <EuiHeaderSectionItemButton
       aria-controls={id}
@@ -95,7 +72,7 @@ const HeaderPartiesMenu = ({}: HeaderPartiesMenuProps) => {
       aria-label="Spaces menu"
       onClick={onMenuButtonClick}
     >
-      {selectedSpace.prepend}
+      {selectedParty?.prepend ?? <EuiIcon type="questionInCircle" />}
     </EuiHeaderSectionItemButton>
   )
 
@@ -110,34 +87,30 @@ const HeaderPartiesMenu = ({}: HeaderPartiesMenuProps) => {
       panelPaddingSize="none"
     >
       <EuiSelectable
-        searchable={isListExtended()}
-        // searchProps={{
-        //   placeholder: 'Find a space',
-        //   compressed: true,
-        // }}
-        options={spaces}
+        searchable={isListExtended() as true}
+        searchProps={{
+          placeholder: 'Find a party',
+          compressed: true,
+        }}
+        options={parties as any}
         singleSelection="always"
         style={{ width: 300 }}
         onChange={onChange}
         listProps={{
-          rowHeight: 40,
+          rowHeight: 48,
           showIcons: false,
         }}
       >
         {(list, search) => (
           <>
             <EuiPopoverTitle paddingSize="s">
-              {search || 'Your spaces'}
+              {search || 'Your parties'}
             </EuiPopoverTitle>
             {list}
             <EuiPopoverFooter paddingSize="s">
-              <EuiButton
-                size="s"
-                fullWidth
-                onClick={addMoreSpaces}
-                disabled={isListExtended()}
-              >
-                Add more spaces
+              {/* This is a footer. */}
+              <EuiButton size="s" fullWidth disabled={isListExtended()}>
+                Create new party
               </EuiButton>
             </EuiPopoverFooter>
           </>
@@ -148,3 +121,42 @@ const HeaderPartiesMenu = ({}: HeaderPartiesMenuProps) => {
 }
 
 export default HeaderPartiesMenu
+
+// const spacesValues = [
+//   {
+//     label: 'Sales team',
+//     prepend: <EuiAvatar type="space" name="Sales Team" size="s" />,
+//     checked: 'on',
+//   },
+//   {
+//     label: 'Engineering',
+//     prepend: <EuiAvatar type="space" name="Engineering" size="s" />,
+//   },
+//   {
+//     label: 'Security',
+//     prepend: <EuiAvatar type="space" name="Security" size="s" />,
+//   },
+//   {
+//     label: 'Default',
+//     prepend: <EuiAvatar type="space" name="Default" size="s" />,
+//   },
+// ]
+
+// const additionalSpaces = [
+//   {
+//     label: 'Sales team 2',
+//     prepend: <EuiAvatar type="space" name="Sales Team 2" size="s" />,
+//   },
+//   {
+//     label: 'Engineering 2',
+//     prepend: <EuiAvatar type="space" name="Engineering 2" size="s" />,
+//   },
+//   {
+//     label: 'Security 2',
+//     prepend: <EuiAvatar type="space" name="Security 2" size="s" />,
+//   },
+//   {
+//     label: 'Default 2',
+//     prepend: <EuiAvatar type="space" name="Default 2" size="s" />,
+//   },
+// ]

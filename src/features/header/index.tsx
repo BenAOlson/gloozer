@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
   EuiHeader,
   EuiHeaderLogo,
@@ -8,11 +8,14 @@ import {
 import HeaderUserMenu from './header-user-menu'
 import HeaderPartiesMenu from './header-parties-menu'
 import { GiBrutalHelm } from 'react-icons/gi'
+import { UserContext } from 'features/firebase/user-context'
 
 type HeaderProps = {
   //
 }
 const Header = ({}: HeaderProps) => {
+  const user = useContext(UserContext)
+
   return (
     <EuiHeader>
       <EuiHeaderSection grow={false}>
@@ -28,20 +31,22 @@ const Header = ({}: HeaderProps) => {
 
       {/* {renderBreadcrumbs()} */}
 
-      <EuiHeaderSection side="right">
-        {/* <EuiHeaderSectionItem>search</EuiHeaderSectionItem> */}
+      {user && (
+        <EuiHeaderSection side="right">
+          {/* <EuiHeaderSectionItem>search</EuiHeaderSectionItem> */}
 
-        <EuiHeaderSectionItem>
-          <HeaderUserMenu />
-        </EuiHeaderSectionItem>
+          <EuiHeaderSectionItem>
+            <HeaderUserMenu />
+          </EuiHeaderSectionItem>
 
-        <EuiHeaderSectionItem border="right">
-          <HeaderPartiesMenu />
-        </EuiHeaderSectionItem>
-        {/* <EuiHeaderSectionItem>
+          <EuiHeaderSectionItem border="right">
+            <HeaderPartiesMenu />
+          </EuiHeaderSectionItem>
+          {/* <EuiHeaderSectionItem>
           <HeaderAppMenu />
         </EuiHeaderSectionItem> */}
-      </EuiHeaderSection>
+        </EuiHeaderSection>
+      )}
     </EuiHeader>
   )
 }
