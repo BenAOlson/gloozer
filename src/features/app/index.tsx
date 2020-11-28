@@ -12,8 +12,8 @@ const App = () => {
     <>
       <Header />
       <EuiPage>
-        <EuiPage>{!user && <SignIn />}</EuiPage>
-        {/* <DemonstrativeStuff /> */}
+        {!user && <SignIn />}
+        <DemonstrativeStuff />
       </EuiPage>
     </>
   )
