@@ -12,7 +12,7 @@ const App = () => {
     <>
       <Header />
       <EuiPage>
-        <EuiPage>{!user && <SignIn />}</EuiPage>
+        {!user && <SignIn />}
         <DemonstrativeStuff />
       </EuiPage>
     </>
