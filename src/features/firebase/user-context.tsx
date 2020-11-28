@@ -5,8 +5,7 @@ export const UserContext = createContext<firebase.User | null>(null)
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const auth = firebase.auth()
-  const currentUser = auth.currentUser
-  const [user, setUser] = useState<typeof currentUser>(null)
+  const [user, setUser] = useState<firebase.User | null>(null)
   const unsubRef = useRef<firebase.Unsubscribe | null>()
 
   unsubRef.current = auth.onAuthStateChanged((user) => {

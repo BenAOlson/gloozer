@@ -9,6 +9,8 @@ import UserDash from 'features/user-dash'
 const App = () => {
   const user = useContext(UserContext)
 
+  console.log('App rendered')
+
   return (
     <>
       <Header />

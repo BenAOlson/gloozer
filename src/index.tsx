@@ -6,12 +6,15 @@ import FirebaseProvider from 'features/firebase'
 // import reportWebVitals from './reportWebVitals'
 import 'themes/gloozer/sass/gloozer-theme.scss'
 import UserProvider from 'features/firebase/user-context'
+import GlobalToast from 'features/global-toast'
 
 ReactDOM.render(
   <React.StrictMode>
     <FirebaseProvider>
       <UserProvider>
-        <App />
+        <GlobalToast>
+          <App />
+        </GlobalToast>
       </UserProvider>
     </FirebaseProvider>
   </React.StrictMode>,

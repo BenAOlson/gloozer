@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import firebase from 'firebase/app'
 import {
   EuiOverlayMask,
@@ -12,17 +12,18 @@ import {
   EuiModalFooter,
   EuiButtonEmpty,
   EuiButton,
-  EuiIcon,
+  htmlIdGenerator,
 } from '@elastic/eui'
 import { BoolSetState } from 'types'
 import IconSelector from './icon-selector'
 import { ComboOption } from './types'
-import { GiBubbles } from 'react-icons/gi'
+import { GlobalToastContext } from 'features/global-toast'
 
 type CreatePartyModalProps = {
   setIsOpen: BoolSetState
 }
 const CreatePartyModal = ({ setIsOpen }: CreatePartyModalProps) => {
+  const addToast = useContext(GlobalToastContext)
   const [selectedIconOptions, setSelectedIconOptions] = useState<
     ComboOption[]
   >()
@@ -37,10 +38,11 @@ const CreatePartyModal = ({ setIsOpen }: CreatePartyModalProps) => {
     const displayName = e.currentTarget.partyName.value
     const db = firebase.database()
     const currentUser = firebase.auth().currentUser
-    if (!currentUser) return
-    // console.log(currentUser?.uid)
-    // return
     try {
+      if (!currentUser) {
+        //This shouldn't happen...but I'm the one building this, so who knows
+        throw new Error('User is creating party while not logged in.')
+      }
       const partyRef = await db.ref('parties').push()
       await partyRef.set({
         displayName,
@@ -58,30 +60,21 @@ const CreatePartyModal = ({ setIsOpen }: CreatePartyModalProps) => {
         iconName: selectedIconOptions?.[0].value,
       })
       setIsOpen(false)
+      addToast({
+        title: `Successfully created ${displayName}`,
+        color: 'success',
+        id: htmlIdGenerator()(),
+      })
     } catch (err) {
-      console.log(err)
+      console.error(err)
+      addToast({
+        title: `Failed to create ${displayName} party`,
+        color: 'danger',
+        id: htmlIdGenerator()(),
+      })
     }
     setIsLoading(false)
   }
-
-  // const getIcon = async () => {
-  //   if (selectedIconOptions?.[0].value) {
-  //     //@ts-ignore
-  //     const icon = await import('react-icons/gi')[selectedIconOptions[0].value]
-  //     return icon
-  //   }
-  // }
-
-  // const SelectedIcon = React.lazy(() =>
-  //   import('react-icons/gi').then((module) => {
-  //     if (selectedIconOptions?.[0].value) {
-  //       //@ts-ignore
-  //       return { default: module[selectedIconOptions[0].value] }
-  //     }
-
-  //     return { default: module.GiBabyFace }
-  //   })
-  // )
 
   return (
     <EuiOverlayMask onClick={closeModal}>
