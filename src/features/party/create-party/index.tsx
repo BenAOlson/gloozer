@@ -3,6 +3,8 @@ import { EuiButton } from '@elastic/eui'
 import { useState } from 'react'
 import CreatePartyModal from './create-party-modal'
 
+//! Not currently in use
+
 type CreatePartyProps = {
   //
 }

@@ -6,7 +6,6 @@ import SignIn from 'features/sign-in'
 import Header from 'features/header'
 import { UserContext } from 'features/firebase/user-context'
 import UserDash from 'features/user-dash'
-import EuiRouterLink from 'features/common/eui-router-link'
 import PartyDash from 'features/party/party-dash'
 
 const App = () => {

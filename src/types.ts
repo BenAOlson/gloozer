@@ -12,6 +12,6 @@ export type User = {
   uid: string
   displayName: string
   email: string
-  photoURL: string
+  photoURL: string | undefined
   parties: UserParty[]
 }

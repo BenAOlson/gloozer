@@ -12,6 +12,7 @@ import {
 } from '@elastic/eui'
 import PartyIcon from 'features/party/party-icon'
 import { useHistory, useRouteMatch } from 'react-router-dom'
+import CreatePartyModal from 'features/party/create-party/create-party-modal'
 
 type SelectableOption = {
   label: string
@@ -24,7 +25,8 @@ const HeaderPartiesMenu = () => {
   const match = useRouteMatch<any>('/party/:partyId')
   const history = useHistory()
   const partyId = match?.params.partyId
-  const [isOpen, setIsOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [parties, setParties] = useState<SelectableOption[]>([])
   const id = htmlIdGenerator()()
   const user = firebase.auth().currentUser
@@ -60,75 +62,83 @@ const HeaderPartiesMenu = () => {
   }
 
   const onMenuButtonClick = () => {
-    setIsOpen(!isOpen)
+    setIsMenuOpen(!isMenuOpen)
+  }
+
+  const onCreatyParyClick = () => {
+    setIsModalOpen(true)
+    setIsMenuOpen(false)
   }
 
   const closePopover = () => {
-    setIsOpen(false)
+    setIsMenuOpen(false)
   }
 
   const onChange = (options: SelectableOption[]) => {
     const selectedParty = options.filter((option) => option.checked)[0]
     // setParties(options)
     history.push(`/party/${selectedParty.value}`)
-    setIsOpen(false)
+    setIsMenuOpen(false)
   }
 
   const selectedParty = parties.filter((option: any) => option.checked)[0]
   const button = (
     <EuiHeaderSectionItemButton
       aria-controls={id}
-      aria-expanded={isOpen}
+      aria-expanded={isMenuOpen}
       aria-haspopup="true"
       aria-label="Spaces menu"
       onClick={onMenuButtonClick}
     >
-      {selectedParty?.prepend ?? <EuiIcon type="questionInCircle" />}
+      {selectedParty?.prepend ?? <EuiIcon type="apps" />}
       {/* {selectedParty?.prepend ?? 'Select a party'} */}
     </EuiHeaderSectionItemButton>
   )
 
   return (
-    <EuiPopover
-      id={id}
-      ownFocus
-      button={button}
-      isOpen={isOpen}
-      anchorPosition="downLeft"
-      closePopover={closePopover}
-      panelPaddingSize="none"
-    >
-      <EuiSelectable
-        searchable={isListExtended() as true}
-        searchProps={{
-          placeholder: 'Find a party',
-          compressed: true,
-        }}
-        options={parties as any}
-        singleSelection="always"
-        style={{ width: 300 }}
-        onChange={onChange}
-        listProps={{
-          rowHeight: 48,
-          showIcons: false,
-        }}
+    <>
+      <EuiPopover
+        id={id}
+        ownFocus
+        button={button}
+        isOpen={isMenuOpen}
+        anchorPosition="downLeft"
+        closePopover={closePopover}
+        panelPaddingSize="none"
       >
-        {(list, search) => (
-          <>
-            <EuiPopoverTitle paddingSize="s">
-              {search || 'Your parties'}
-            </EuiPopoverTitle>
-            {list}
-            <EuiPopoverFooter paddingSize="s">
-              {/* This is a footer. */}
-              <EuiButton size="s" fullWidth>
-                Create new party
-              </EuiButton>
-            </EuiPopoverFooter>
-          </>
-        )}
-      </EuiSelectable>
-    </EuiPopover>
+        <EuiSelectable
+          searchable={isListExtended() as true}
+          searchProps={{
+            placeholder: 'Find a party',
+            compressed: true,
+          }}
+          options={parties as any}
+          singleSelection="always"
+          style={{ width: 300 }}
+          onChange={onChange}
+          listProps={{
+            rowHeight: 48,
+            showIcons: false,
+          }}
+        >
+          {(list, search) => (
+            <>
+              <EuiPopoverTitle paddingSize="s">
+                {search || 'Your parties'}
+              </EuiPopoverTitle>
+              {list}
+              <EuiPopoverFooter paddingSize="s">
+                {/* This is a footer. */}
+                <EuiButton size="s" fullWidth onClick={onCreatyParyClick}>
+                  Create new party
+                </EuiButton>
+              </EuiPopoverFooter>
+            </>
+          )}
+        </EuiSelectable>
+      </EuiPopover>
+      {isModalOpen && <CreatePartyModal setIsOpen={setIsModalOpen} />}
+    </>
   )
 }
 
