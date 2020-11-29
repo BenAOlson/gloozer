@@ -69,6 +69,7 @@ const EmailSignin = () => {
     const password = e.currentTarget.password.value
     const isNew = isNewChecked
     const userName = e.currentTarget.userName?.value
+    const photoURL = e.currentTarget.photoURL?.value
     if (!(email && password)) {
       setErrs((errs) => ({
         ...errs,
@@ -90,6 +91,7 @@ const EmailSignin = () => {
         await auth.createUserWithEmailAndPassword(email, password)
         await auth.currentUser?.updateProfile({
           displayName: userName,
+          photoURL,
         })
         setIsOpen(false)
       } catch (err) {
@@ -180,6 +182,13 @@ const EmailSignin = () => {
                   <>
                     <EuiFormRow label="Your name" helpText="optional" fullWidth>
                       <EuiFieldText name="userName" fullWidth />
+                    </EuiFormRow>
+                    <EuiFormRow
+                      label="Profile photo URL"
+                      helpText="optional"
+                      fullWidth
+                    >
+                      <EuiFieldText name="photoURL" fullWidth />
                     </EuiFormRow>
                   </>
                 )}

@@ -35,16 +35,15 @@ const HeaderPartiesMenu = () => {
     const db = firebase.database()
     const ref = db.ref(`users/${user?.uid}/parties`)
     ref.on('value', (snapshot) => {
-      const partiesVal = snapshot.val()
+      const partiesVal: any = snapshot.val()
+      if (!partiesVal) return
       const partyOptions: SelectableOption[] = Object.keys(partiesVal).map(
         (partyKey, i) => {
           const { displayName, iconName } = partiesVal[partyKey]
           return {
             label: displayName,
             value: partyKey,
-            // prepend: <EuiAvatar type="space" name={displayName} size="s" />,
             prepend: <PartyIcon iconName={iconName} />,
-            //TODO: set checked state for 'active' party for user
             checked: partyId === partyKey ? 'on' : null, //conditionally set for active party
           }
         }

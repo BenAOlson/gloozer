@@ -10,14 +10,10 @@ import {
   EuiText,
   EuiSpacer,
   EuiLink,
-  EuiButton,
 } from '@elastic/eui'
 import { UserContext } from 'features/firebase/user-context'
 
-type HeaderUserMenuProps = {
-  //
-}
-const HeaderUserMenu = ({}: HeaderUserMenuProps) => {
+const HeaderUserMenu = () => {
   const user = useContext(UserContext)
   const id = htmlIdGenerator()()
   const [isOpen, setIsOpen] = useState(false)
@@ -90,7 +86,7 @@ const HeaderUserMenu = ({}: HeaderUserMenuProps) => {
               <EuiFlexItem>
                 <EuiFlexGroup justifyContent="spaceBetween">
                   <EuiFlexItem grow={false}>
-                    <EuiLink>Edit profile</EuiLink>
+                    <EuiLink>View stats</EuiLink>
                   </EuiFlexItem>
 
                   <EuiFlexItem grow={false}>
