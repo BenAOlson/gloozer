@@ -11,13 +11,19 @@ import {
   EuiIcon,
 } from '@elastic/eui'
 import PartyIcon from 'features/party/party-icon'
+import { useHistory, useRouteMatch } from 'react-router-dom'
 
 type SelectableOption = {
   label: string
+  value: string
   prepend?: React.ReactNode
   checked?: string | null
 }
 const HeaderPartiesMenu = () => {
+  //TODO: type this correctly
+  const match = useRouteMatch<any>('/party/:partyId')
+  const history = useHistory()
+  const partyId = match?.params.partyId
   const [isOpen, setIsOpen] = useState(false)
   const [parties, setParties] = useState<SelectableOption[]>([])
   const id = htmlIdGenerator()()
@@ -28,23 +34,26 @@ const HeaderPartiesMenu = () => {
     const ref = db.ref(`users/${user?.uid}/parties`)
     ref.on('value', (snapshot) => {
       const partiesVal = snapshot.val()
-      const partyOptions = Object.keys(partiesVal).map((key, i) => {
-        const { displayName, iconName } = partiesVal[key]
-        return {
-          label: displayName,
-          // prepend: <EuiAvatar type="space" name={displayName} size="s" />,
-          prepend: <PartyIcon iconName={iconName} />,
-          //TODO: set checked state for 'active' party for user
-          checked: i === 0 ? 'on' : null, //conditionally set for active party
+      const partyOptions: SelectableOption[] = Object.keys(partiesVal).map(
+        (partyKey, i) => {
+          const { displayName, iconName } = partiesVal[partyKey]
+          return {
+            label: displayName,
+            value: partyKey,
+            // prepend: <EuiAvatar type="space" name={displayName} size="s" />,
+            prepend: <PartyIcon iconName={iconName} />,
+            //TODO: set checked state for 'active' party for user
+            checked: partyId === partyKey ? 'on' : null, //conditionally set for active party
+          }
         }
-      })
+      )
       setParties(partyOptions ?? [])
     })
     return () => {
       ref.off()
       setParties([])
     }
-  }, [user])
+  }, [user, partyId])
 
   const isListExtended = () => {
     return parties.length > 6
@@ -58,8 +67,10 @@ const HeaderPartiesMenu = () => {
     setIsOpen(false)
   }
 
-  const onChange = (options: any) => {
-    setParties(options)
+  const onChange = (options: SelectableOption[]) => {
+    const selectedParty = options.filter((option) => option.checked)[0]
+    // setParties(options)
+    history.push(`/party/${selectedParty.value}`)
     setIsOpen(false)
   }
 
@@ -73,6 +84,7 @@ const HeaderPartiesMenu = () => {
       onClick={onMenuButtonClick}
     >
       {selectedParty?.prepend ?? <EuiIcon type="questionInCircle" />}
+      {/* {selectedParty?.prepend ?? 'Select a party'} */}
     </EuiHeaderSectionItemButton>
   )
 
@@ -109,7 +121,7 @@ const HeaderPartiesMenu = () => {
             {list}
             <EuiPopoverFooter paddingSize="s">
               {/* This is a footer. */}
-              <EuiButton size="s" fullWidth disabled={isListExtended()}>
+              <EuiButton size="s" fullWidth>
                 Create new party
               </EuiButton>
             </EuiPopoverFooter>
@@ -121,42 +133,3 @@ const HeaderPartiesMenu = () => {
 }
 
 export default HeaderPartiesMenu
-
-// const spacesValues = [
-//   {
-//     label: 'Sales team',
-//     prepend: <EuiAvatar type="space" name="Sales Team" size="s" />,
-//     checked: 'on',
-//   },
-//   {
-//     label: 'Engineering',
-//     prepend: <EuiAvatar type="space" name="Engineering" size="s" />,
-//   },
-//   {
-//     label: 'Security',
-//     prepend: <EuiAvatar type="space" name="Security" size="s" />,
-//   },
-//   {
-//     label: 'Default',
-//     prepend: <EuiAvatar type="space" name="Default" size="s" />,
-//   },
-// ]
-
-// const additionalSpaces = [
-//   {
-//     label: 'Sales team 2',
-//     prepend: <EuiAvatar type="space" name="Sales Team 2" size="s" />,
-//   },
-//   {
-//     label: 'Engineering 2',
-//     prepend: <EuiAvatar type="space" name="Engineering 2" size="s" />,
-//   },
-//   {
-//     label: 'Security 2',
-//     prepend: <EuiAvatar type="space" name="Security 2" size="s" />,
-//   },
-//   {
-//     label: 'Default 2',
-//     prepend: <EuiAvatar type="space" name="Default 2" size="s" />,
-//   },
-// ]

@@ -44,7 +44,7 @@ const EmailSignin = () => {
     setErrs((prevErrors) => {
       const isEmail = (err.message as string)
         .toLocaleLowerCase()
-        .includes('email')
+        .match(/email|identifier/m)
       const isPassword = (err.message as string)
         .toLocaleLowerCase()
         .includes('password')

@@ -19,11 +19,13 @@ import IconSelector from './icon-selector'
 import { ComboOption } from './types'
 import { GlobalToastContext } from 'features/global-toast'
 import { useModalForm } from 'features/common/hooks/use-modal-form'
+import { useHistory } from 'react-router-dom'
 
 type CreatePartyModalProps = {
   setIsOpen: BoolSetState
 }
 const CreatePartyModal = ({ setIsOpen }: CreatePartyModalProps) => {
+  const history = useHistory()
   const addToast = useContext(GlobalToastContext)
   const [selectedIconOptions, setSelectedIconOptions] = useState<
     ComboOption[]
@@ -83,12 +85,13 @@ const CreatePartyModal = ({ setIsOpen }: CreatePartyModalProps) => {
         displayName,
         iconName: selectedIconOptions?.[0].value,
       })
-      setIsOpen(false)
       addToast({
         title: `Successfully created ${displayName}`,
         color: 'success',
         id: htmlIdGenerator()(),
       })
+      history.push(`/party/${partyRef.key}`)
+      setIsOpen(false)
     } catch (err) {
       console.error(err)
       addToast({

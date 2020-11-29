@@ -9,12 +9,21 @@ import HeaderUserMenu from './header-user-menu'
 import HeaderPartiesMenu from './header-parties-menu'
 import { GiBrutalHelm } from 'react-icons/gi'
 import { UserContext } from 'features/firebase/user-context'
+import { useHistory } from 'react-router-dom'
 
 type HeaderProps = {
   //
 }
 const Header = ({}: HeaderProps) => {
   const user = useContext(UserContext)
+  const history = useHistory()
+
+  const handleLogoClick = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    e.preventDefault()
+    history.push('/')
+  }
 
   return (
     <EuiHeader>
@@ -23,7 +32,7 @@ const Header = ({}: HeaderProps) => {
           <EuiHeaderLogo
             iconType={GiBrutalHelm}
             href="#"
-            onClick={(e) => e.preventDefault()}
+            onClick={handleLogoClick}
             aria-label="Go to home page"
           />
         </EuiHeaderSectionItem>
