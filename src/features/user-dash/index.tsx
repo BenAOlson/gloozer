@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import {
   EuiAvatar,
   EuiFlexGroup,
@@ -9,14 +9,12 @@ import {
   EuiPageContentHeaderSection,
   EuiTitle,
 } from '@elastic/eui'
-import { UserContext } from 'features/firebase/user-context'
+import { User } from 'types'
 
 type UserDashProps = {
-  //
+  user: User
 }
-const UserDash = ({}: UserDashProps) => {
-  const user = useContext(UserContext)
-
+const UserDash = ({ user }: UserDashProps) => {
   if (user) {
     return (
       <EuiPageBody>

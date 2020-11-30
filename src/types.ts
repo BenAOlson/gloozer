@@ -13,5 +13,18 @@ export type User = {
   displayName: string
   email: string
   photoURL: string
-  parties: UserParty[]
+  parties?: {
+    [key: string]: UserParty
+  }
+}
+
+export type PartyUser = {
+  displayName: string
+}
+export type Party = {
+  displayName: string
+  iconName: string
+  users: {
+    [key: string]: PartyUser
+  }
 }

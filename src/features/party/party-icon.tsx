@@ -3,8 +3,9 @@ import React, { Suspense } from 'react'
 
 type PartyIconProps = {
   iconName: string
+  size?: 's' | 'original' | 'm' | 'l' | 'xl' | 'xxl'
 }
-const PartyIcon = ({ iconName }: PartyIconProps) => {
+const PartyIcon = ({ iconName, size }: PartyIconProps) => {
   const Icon = React.lazy(() =>
     import('react-icons/gi').then((module) => {
       if (Object.keys(module).includes(iconName)) {
@@ -17,7 +18,7 @@ const PartyIcon = ({ iconName }: PartyIconProps) => {
 
   return (
     <Suspense fallback={<EuiIcon type="questionInCircle" />}>
-      <EuiIcon type={Icon} />
+      <EuiIcon type={Icon} size={size} />
     </Suspense>
   )
 }

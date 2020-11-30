@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import firebase from 'firebase/app'
 import {
   htmlIdGenerator,
@@ -13,6 +13,7 @@ import {
 import PartyIcon from 'features/party/party-icon'
 import { useHistory, useRouteMatch } from 'react-router-dom'
 import CreatePartyModal from 'features/party/create-party/create-party-modal'
+import { UserContext } from 'features/firebase/user-context'
 
 type SelectableOption = {
   label: string
@@ -29,7 +30,7 @@ const HeaderPartiesMenu = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [parties, setParties] = useState<SelectableOption[]>([])
   const id = htmlIdGenerator()()
-  const user = firebase.auth().currentUser
+  const user = useContext(UserContext)
 
   useEffect(() => {
     const db = firebase.database()
@@ -90,7 +91,6 @@ const HeaderPartiesMenu = () => {
       onClick={onMenuButtonClick}
     >
       {selectedParty?.prepend ?? <EuiIcon type="apps" />}
-      {/* {selectedParty?.prepend ?? 'Select a party'} */}
     </EuiHeaderSectionItemButton>
   )
 

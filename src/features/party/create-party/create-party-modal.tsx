@@ -80,17 +80,17 @@ const CreatePartyModal = ({ setIsOpen }: CreatePartyModalProps) => {
           },
         },
       })
+      history.push(`/party/${partyRef.key}`)
       const userRef = db.ref(`users/${currentUser.uid}/parties/${partyRef.key}`)
       await userRef.set({
         displayName,
         iconName: selectedIconOptions?.[0].value,
       })
       addToast({
-        title: `Successfully created ${displayName}`,
+        title: `Successfully created new party: ${displayName}`,
         color: 'success',
         id: htmlIdGenerator()(),
       })
-      history.push(`/party/${partyRef.key}`)
       setIsOpen(false)
     } catch (err) {
       console.error(err)

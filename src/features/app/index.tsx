@@ -18,10 +18,10 @@ const App = () => {
       <AppCore>
         <Switch>
           <Route path="/party/:partyId">
-            <PartyDash />
+            <PartyDash user={user} />
           </Route>
           <Route path="/">
-            <UserDash />
+            <UserDash user={user} />
           </Route>
         </Switch>
       </AppCore>
@@ -30,7 +30,9 @@ const App = () => {
 
   return (
     <AppCore>
-      <SignIn />
+      <Route path="/">
+        <SignIn />
+      </Route>
     </AppCore>
   )
 }

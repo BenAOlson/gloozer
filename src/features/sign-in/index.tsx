@@ -25,8 +25,6 @@ const SignIn = ({}: SignInProps) => {
   const user = useContext(UserContext)
   const auth = firebase.auth()
 
-  console.log(user?.email)
-
   const signOut = () => {
     auth.signOut()
   }
