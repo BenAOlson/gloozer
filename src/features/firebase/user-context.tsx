@@ -2,10 +2,10 @@ import firebase from 'firebase/app'
 import React, { createContext, useEffect, useState } from 'react'
 import { User } from 'types'
 
-export const UserContext = createContext<User | null>(null)
+export const UserContext = createContext<User | null | undefined>(undefined)
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User | null | undefined>()
 
   useEffect(() => {
     const auth = firebase.auth()

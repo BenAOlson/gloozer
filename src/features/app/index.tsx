@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { EuiPage } from '@elastic/eui'
+import { EuiLoadingSpinner, EuiPage, EuiPageBody } from '@elastic/eui'
 import SignIn from 'features/sign-in'
 // import DemonstrativeStuff from 'features/demonstrative-stuff'
 import Header from 'features/header'
@@ -20,19 +20,34 @@ const App = () => {
           <Route path="/party/:partyId">
             <PartyDash user={user} />
           </Route>
-          <Route path="/">
+          <Route path="/" exact>
             <UserDash user={user} />
+          </Route>
+          <Route>
+            <div>404 baby</div>
           </Route>
         </Switch>
       </AppCore>
     )
   }
 
+  if (user === null) {
+    return (
+      <AppCore>
+        <Route path="/">
+          <SignIn />
+        </Route>
+      </AppCore>
+    )
+  }
+
   return (
     <AppCore>
-      <Route path="/">
-        <SignIn />
-      </Route>
+      <EuiPageBody>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <EuiLoadingSpinner size="xl" />
+        </div>
+      </EuiPageBody>
     </AppCore>
   )
 }
