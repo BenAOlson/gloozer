@@ -1,4 +1,4 @@
-import { SetState } from 'types'
+import { SetState } from 'types/types'
 import { ComboOption } from './types'
 import React from 'react'
 import * as icons from 'react-icons/gi'

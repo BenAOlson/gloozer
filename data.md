@@ -17,29 +17,37 @@
   * photoURL
   * parties[]
     * uuid
+
+*parties (uuid)
+  * (uuid)
     * displayName
     * iconName
-    * isAdmin?? //maybe? Could be useful for display purpose, but not sure what else
- 
-* parties (uuid)
-  * displayName
-  * iconName
-  * users[]
-    * uid
-    * displayName
-    * photoURL??
-    * isAdmin??
-    * ???
-  * admins[]??
-    * uid
-  * scenarios[]
-    * uuid
-    * scenarioId (general scenario id, *e.g., id of Scenario #1 from book*)
-    * date
-    * isWin ??
-    * result ??
-  * stats? (should this be here, or just aggregated from other stats?)
-    * TBD
+    * campaign
+      * type: ('GLOOMHAVEN' | 'JOTL' | 'FROSTHAVEN' )
+      * expansions?: ('FC')
+    * users[]
+      * uid
+      * displayName
+      * photoURL??
+      * isAdmin??
+      * ???
+
+* scenarios (uuid)
+  * scenarioId (general scenario id, *e.g., id of Scenario #1 from book*)
+  * timeStarted
+  * timeCompleted
+  * party: party uuid
+  * characters
+    * (character uuid)
+  * players
+    * (player uuid)
+  * isWin ??
+  * result ??
+
+
+
+* stats? 
+  * TBD
  
 * scenarios (uuid) (*actual completed scenarios, not like, Scenario #1 from book*)
   * scenarioId (general scenario id, *e.g., id of Scenario #1 from book*)

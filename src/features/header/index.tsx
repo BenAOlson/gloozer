@@ -11,10 +11,7 @@ import { GiBrutalHelm } from 'react-icons/gi'
 import { UserContext } from 'features/firebase/user-context'
 import { useHistory } from 'react-router-dom'
 
-type HeaderProps = {
-  //
-}
-const Header = ({}: HeaderProps) => {
+const Header = () => {
   const user = useContext(UserContext)
   const history = useHistory()
 

@@ -18,10 +18,7 @@ import FacebookSignin from './buttons/facebook-signin'
 import GithubSignin from './buttons/github-signin'
 import YahooSignin from './buttons/yahoo-signin'
 
-type SignInProps = {
-  //
-}
-const SignIn = ({}: SignInProps) => {
+const SignIn = () => {
   const user = useContext(UserContext)
   const auth = firebase.auth()
 

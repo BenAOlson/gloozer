@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useState } from 'react'
 import firebase from 'firebase/app'
 import { useParams } from 'react-router-dom'
-import { Party, User } from 'types'
+import { Party, User } from 'types/types'
 import {
   EuiButton,
   EuiEmptyPrompt,

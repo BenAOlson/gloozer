@@ -9,7 +9,7 @@ import {
   EuiPageContentHeaderSection,
   EuiTitle,
 } from '@elastic/eui'
-import { User } from 'types'
+import { User } from 'types/types'
 
 type UserDashProps = {
   user: User

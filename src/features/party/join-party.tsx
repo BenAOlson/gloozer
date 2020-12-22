@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react'
 import firebase from 'firebase/app'
 import CreatePartyModal from './create-party/create-party-modal'
 import * as icons from 'react-icons/gi'
-import { User } from 'types'
+import { User } from 'types/types'
 import { GlobalToastContext } from 'features/global-toast'
 
 type JoinPartyProps = {
@@ -32,7 +32,7 @@ const JoinParty = ({
       addToast({
         title: `Joined ${displayName} party`,
         color: 'success',
-        id: htmlIdGenerator()(),
+        // id: htmlIdGenerator()(),
       })
     } catch (err: unknown) {
       const msg = (err as Error).message
@@ -40,7 +40,7 @@ const JoinParty = ({
       addToast({
         title: `Failed to join ${displayName} party`,
         color: 'danger',
-        id: htmlIdGenerator()(),
+        // id: htmlIdGenerator()(),
       })
     }
     setIsJoining(false)

@@ -1,6 +1,7 @@
+import { GlobalToastContext } from 'features/global-toast'
 import firebase from 'firebase/app'
 import React, { createContext, useEffect, useState } from 'react'
-import { User } from 'types'
+import { User } from 'types/types'
 
 export const UserContext = createContext<User | null | undefined>(undefined)
 
@@ -10,22 +11,28 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const auth = firebase.auth()
     const db = firebase.database()
-    // authUnsubRef.current = auth.onAuthStateChanged((user) => {
     let ref: firebase.database.Reference | undefined
-    const authUnsub = auth.onAuthStateChanged((user) => {
-      console.log('auth state changed')
-      if (user) {
-        ref = db.ref(`users/${user.uid}`)
-        ref.on('value', (snapshot) => {
-          const userVal: Omit<User, 'uid'> | null = snapshot.val()
-          if (userVal) setUser({ ...userVal, uid: user.uid })
-        })
+    const authUnsub = auth.onAuthStateChanged((firebaseUser) => {
+      if (firebaseUser) {
+        ref = db.ref(`users/${firebaseUser.uid}`)
+        ref.on(
+          'value',
+          (snapshot) => {
+            const userVal: Omit<User, 'uid'> | null = snapshot.val()
+            // console.log('userVal:', userVal)
+            // console.log('auth state:', firebaseUser)
+            if (userVal) setUser({ ...userVal, uid: firebaseUser.uid })
+          },
+          (err: Error) => {
+            console.error(err)
+          }
+        )
         return
       }
 
       //remove db listener if there is no active user
       ref && ref.off()
-      setUser(user)
+      setUser(firebaseUser)
     })
 
     return () => {

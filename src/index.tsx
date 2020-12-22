@@ -6,16 +6,16 @@ import FirebaseProvider from 'features/firebase'
 // import reportWebVitals from './reportWebVitals'
 import 'themes/gloozer/sass/gloozer-theme.scss'
 import UserProvider from 'features/firebase/user-context'
-import GlobalToast from 'features/global-toast'
+import GlobalToastProvider from 'features/global-toast'
 
 ReactDOM.render(
   <React.StrictMode>
     <FirebaseProvider>
-      <UserProvider>
-        <GlobalToast>
+      <GlobalToastProvider>
+        <UserProvider>
           <App />
-        </GlobalToast>
-      </UserProvider>
+        </UserProvider>
+      </GlobalToastProvider>
     </FirebaseProvider>
   </React.StrictMode>,
   document.getElementById('root')

@@ -15,6 +15,7 @@ export type User = {
   photoURL: string
   parties?: {
     [key: string]: UserParty
+    // [key: string]: boolean
   }
 }
 

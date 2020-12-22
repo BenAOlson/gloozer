@@ -1,6 +1,6 @@
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list'
 import React, { createContext, useState } from 'react'
-import { EuiGlobalToastList } from '@elastic/eui'
+import { EuiGlobalToastList, htmlIdGenerator } from '@elastic/eui'
 import {
   GiBrutalHelm,
   GiDeathSkull,
@@ -10,18 +10,20 @@ import {
 
 //TODO: Don't hardcode this
 type ToastColor = 'primary' | 'success' | 'warning' | 'danger' | undefined
-type AddToast = (toast: Toast) => void
+type AddToastToastParam = Omit<Toast, 'id'>
+type AddToast = (toast: AddToastToastParam) => void
 export const GlobalToastContext = createContext<AddToast>({} as AddToast)
 
 type GloablToastProps = {
   children: React.ReactNode
 }
-const GlobalToast = ({ children }: GloablToastProps) => {
+const GlobalToastProvider = ({ children }: GloablToastProps) => {
   const [toasts, setToasts] = useState<Toast[]>([])
 
-  const addToast: AddToast = (toast: Toast) => {
+  const addToast: AddToast = (toast: AddToastToastParam) => {
     const iconType = toast.iconType ?? getIconType(toast.color)
-    setToasts((prevToasts) => prevToasts.concat({ ...toast, iconType }))
+    const idToast = { ...toast, id: htmlIdGenerator()() }
+    setToasts((prevToasts) => prevToasts.concat({ ...idToast, iconType }))
   }
 
   const removeToast = (removedToast: Toast) => {
@@ -44,7 +46,7 @@ const GlobalToast = ({ children }: GloablToastProps) => {
   )
 }
 
-export default GlobalToast
+export default GlobalToastProvider
 
 const getIconType = (color: ToastColor) => {
   switch (color) {
