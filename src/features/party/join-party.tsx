@@ -1,4 +1,4 @@
-import { EuiEmptyPrompt, EuiButton, htmlIdGenerator } from '@elastic/eui'
+import { EuiEmptyPrompt, EuiButton } from '@elastic/eui'
 import React, { useContext, useState } from 'react'
 import firebase from 'firebase/app'
 import CreatePartyModal from './create-party/create-party-modal'
@@ -32,15 +32,13 @@ const JoinParty = ({
       addToast({
         title: `Joined ${displayName} party`,
         color: 'success',
-        // id: htmlIdGenerator()(),
       })
-    } catch (err: unknown) {
+    } catch (err) {
       const msg = (err as Error).message
       console.error(msg)
       addToast({
         title: `Failed to join ${displayName} party`,
         color: 'danger',
-        // id: htmlIdGenerator()(),
       })
     }
     setIsJoining(false)

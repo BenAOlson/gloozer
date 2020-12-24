@@ -32,7 +32,7 @@ const SignIn = () => {
         <EuiPageContentHeader>
           <EuiPageContentHeaderSection>
             <EuiTitle>
-              <h1>Sign in and/or up</h1>
+              <h1>Sign in or sign up</h1>
             </EuiTitle>
             {user && (
               <EuiTitle>

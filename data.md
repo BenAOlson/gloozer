@@ -18,19 +18,18 @@
   * parties[]
     * uuid
 
-*parties (uuid)
-  * (uuid)
+* parties (uuid)
+  * displayName
+  * iconName
+  * campaign
+    * type: ('GLOOMHAVEN' | 'JOTL' | 'FROSTHAVEN' )
+    * expansions?: ('FC')
+  * users[]
+    * uid
     * displayName
-    * iconName
-    * campaign
-      * type: ('GLOOMHAVEN' | 'JOTL' | 'FROSTHAVEN' )
-      * expansions?: ('FC')
-    * users[]
-      * uid
-      * displayName
-      * photoURL??
-      * isAdmin??
-      * ???
+    * photoURL??
+    * isAdmin??
+    * ???
 
 * scenarios (uuid)
   * scenarioId (general scenario id, *e.g., id of Scenario #1 from book*)

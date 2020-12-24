@@ -32,8 +32,6 @@ const HeaderPartiesMenu = () => {
   const id = htmlIdGenerator()()
   const user = useContext(UserContext)
 
-  console.log('header-parties')
-
   useEffect(() => {
     const db = firebase.database()
     const ref = db.ref(`users/${user?.uid}/parties`)

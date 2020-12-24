@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useState } from 'react'
 import firebase from 'firebase/app'
 import { useParams } from 'react-router-dom'
-import { Party, User } from 'types/types'
+import { PartyData, User } from 'types/types'
 import {
   EuiButton,
   EuiEmptyPrompt,
@@ -17,6 +17,7 @@ import {
 import PartyIcon from './party-icon'
 import { ImConfused } from 'react-icons/im'
 import CreatePartyModal from './create-party/create-party-modal'
+import PartyDash from './party-dash'
 
 /*
     TODO:
@@ -39,10 +40,10 @@ type UnjoinedParty =
 type PartyDashProps = {
   user: User
 }
-const PartyDash = ({ user }: PartyDashProps) => {
+const Party = ({ user }: PartyDashProps) => {
   const { partyId } = useParams<{ partyId: string }>()
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
-  const [party, setParty] = useState<Party | null>(null)
+  const [party, setParty] = useState<PartyData | null>(null)
   //null if the user is in the party, false if the 'unjoined' party doesn't exist
   const [unjoinedParty, setUnjoinedParty] = useState<UnjoinedParty>(null)
 
@@ -124,24 +125,7 @@ const PartyDash = ({ user }: PartyDashProps) => {
   }
 
   if (party) {
-    return (
-      <EuiPageBody>
-        <EuiPageContent horizontalPosition="center">
-          <EuiPageContentHeader>
-            <EuiPageContentHeaderSection>
-              <EuiTitle>
-                <h2>{party.displayName}</h2>
-              </EuiTitle>
-            </EuiPageContentHeaderSection>
-          </EuiPageContentHeader>
-          <EuiPageContentBody>
-            <EuiFlexGroup justifyContent="center">
-              <PartyIcon iconName={party.iconName} size="xxl" />
-            </EuiFlexGroup>
-          </EuiPageContentBody>
-        </EuiPageContent>
-      </EuiPageBody>
-    )
+    return <PartyDash party={party} />
   }
 
   const LoadingSpinner = (
@@ -163,4 +147,4 @@ const PartyDash = ({ user }: PartyDashProps) => {
   return <EuiPageBody>{LoadingSpinner}</EuiPageBody>
 }
 
-export default PartyDash
+export default Party

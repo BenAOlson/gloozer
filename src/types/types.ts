@@ -22,7 +22,7 @@ export type User = {
 export type PartyUser = {
   displayName: string
 }
-export type Party = {
+export type PartyData = {
   displayName: string
   iconName: string
   users: {

@@ -17,7 +17,6 @@ import {
   EuiButton,
   EuiSelect,
   EuiCheckboxGroup,
-  EuiCheckbox,
 } from '@elastic/eui'
 import IconSelector from './icon-selector'
 import { GlobalToastContext } from 'features/global-toast'
@@ -29,12 +28,6 @@ import {
   Expansions,
   expansionTypes,
 } from '@constants'
-
-/*
-  TODO:
-  ----
-    * Add expansions to database on party creation
-*/
 
 type ExpansionState = {
   type: Expansions

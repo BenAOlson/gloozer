@@ -6,7 +6,7 @@ import SignIn from 'features/sign-in'
 import Header from 'features/header'
 import { UserContext } from 'features/firebase/user-context'
 import UserDash from 'features/user-dash'
-import PartyDash from 'features/party/party-dash'
+import Party from 'features/party'
 
 const App = () => {
   const user = useContext(UserContext)
@@ -18,7 +18,7 @@ const App = () => {
       <AppCore>
         <Switch>
           <Route path="/party/:partyId">
-            <PartyDash user={user} />
+            <Party user={user} />
           </Route>
           <Route path="/" exact>
             <UserDash user={user} />
