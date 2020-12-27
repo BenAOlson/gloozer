@@ -30,6 +30,9 @@
     * photoURL??
     * isAdmin??
     * ???
+  * unlockedClasses
+    * name: true
+      
 
 * scenarios (uuid)
   * scenarioId (general scenario id, *e.g., id of Scenario #1 from book*)

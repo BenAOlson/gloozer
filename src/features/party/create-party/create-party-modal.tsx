@@ -1,4 +1,4 @@
-import { BoolSetState } from 'types/types'
+import { BoolSetState, Campaigns, Expansions } from 'types/types'
 import { ComboOption } from './types'
 import React, { useContext, useState } from 'react'
 import { nanoid } from 'nanoid'
@@ -22,13 +22,12 @@ import IconSelector from './icon-selector'
 import { GlobalToastContext } from 'features/global-toast'
 import { useModalForm } from 'features/common/hooks/use-modal-form'
 import { useHistory } from 'react-router-dom'
-import {
-  Campaigns,
-  campaignTypes,
-  Expansions,
-  expansionTypes,
-} from '@constants'
+import { campaignTypes, expansionTypes } from 'project-constants'
+import playerClasses from 'data/classes'
 
+type KeyTrueObj = {
+  [key: string]: true
+}
 type ExpansionState = {
   type: Expansions
   name: string
@@ -64,15 +63,25 @@ const CreatePartyModal = ({ setIsOpen }: CreatePartyModalProps) => {
     defaultExpansionState
   )
 
-  console.log('CreatePartyModal ~ expansions', expansions)
+  type ExpansionOption = {
+    id: string
+    name: string
+    label: string
+  }
+  const expansionOptions = expansions.reduce<ExpansionOption[]>(
+    (acc, expansion) => {
+      if (expansion.campaign === selectedCampaign) {
+        acc.push({
+          id: expansion.type,
+          name: expansion.type,
+          label: expansion.name,
+        })
+      }
+      return acc
+    },
 
-  const expansionOptions = expansions
-    .filter((expansion) => expansion.campaign === selectedCampaign)
-    .map((expansion) => ({
-      id: expansion.type,
-      name: expansion.type,
-      label: expansion.name,
-    }))
+    []
+  )
 
   const expansionsChecked = expansions.reduce(
     (obj, value) => ({ ...obj, [value.type]: value.isChecked }),
@@ -117,6 +126,15 @@ const CreatePartyModal = ({ setIsOpen }: CreatePartyModalProps) => {
     })
   }
 
+  const formattedExpansions = expansions.reduce((obj, value) => {
+    if (!(value.isChecked && value.campaign === selectedCampaign)) {
+      return obj
+    }
+
+    return { ...obj, [value.type]: true }
+  }, {})
+  console.log('formattedExpansions ~ formattedExpansions', formattedExpansions)
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const displayName = e.currentTarget.partyName.value
@@ -148,16 +166,34 @@ const CreatePartyModal = ({ setIsOpen }: CreatePartyModalProps) => {
         throw new Error('User is creating party while not logged in.')
       }
 
-      const formattedExpansions = expansions.reduce((obj, value) => {
-        if (!(value.isChecked && value.campaign === selectedCampaign)) {
+      const gameSets = [
+        selectedCampaign,
+        ...expansions.reduce<string[]>((acc, expansion) => {
+          if (expansion.campaign === selectedCampaign && expansion.isChecked)
+            acc.push(expansion.type)
+          return acc
+        }, []),
+      ]
+      const defaultClasses = playerClasses.reduce<KeyTrueObj>(
+        (obj, playerClass) => {
+          const isDefaultInSelectedSets =
+            playerClass.defaultUnlocked && gameSets.includes(playerClass.set)
+          // const isDefaultInSelectedSets = playerClass.defaultUnlocked
+          if (isDefaultInSelectedSets) obj[playerClass.name] = true
           return obj
-        }
+        },
+        {}
+      )
 
-        return { ...obj, [value.type]: true }
-      }, {})
-      console.log(
-        'formattedExpansions ~ formattedExpansions',
-        formattedExpansions
+      const formattedExpansions = expansions.reduce<KeyTrueObj>(
+        (obj, value) => {
+          if (!(value.isChecked && value.campaign === selectedCampaign)) {
+            return obj
+          }
+
+          return { ...obj, [value.type]: true }
+        },
+        {}
       )
 
       //Create party
@@ -167,6 +203,7 @@ const CreatePartyModal = ({ setIsOpen }: CreatePartyModalProps) => {
         iconName: selectedIconOptions?.[0].value,
         campaignType: selectedCampaign,
         expansions: formattedExpansions,
+        unlockedClasses: defaultClasses,
         users: {
           [currentUser.uid]: {
             displayName: currentUser.displayName,

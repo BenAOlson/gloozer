@@ -1,4 +1,4 @@
-import { Campaigns, Expansions } from '@constants'
+import { Campaigns, Expansions } from 'types/types'
 
 type GameSet = Campaigns | Expansions
 type Health = 'LOW' | 'MED' | 'HIGH'
@@ -37,6 +37,9 @@ type PlayerClass = {
   companion?: CompanionName
 }
 const playerClasses: PlayerClass[] = [
+  //*---------------------------------*//
+  //*           Gloomhaven            *//
+  //*---------------------------------*//
   {
     name: 'Brute',
     race: 'Inox',
@@ -162,6 +165,9 @@ const playerClasses: PlayerClass[] = [
     set: 'GLOOMHAVEN',
     health: 'MED',
   },
+  //*---------------------------------*//
+  //*       Forgotten Circles         *//
+  //*---------------------------------*//
   {
     name: 'Diviner',
     abbrev: 'DV',

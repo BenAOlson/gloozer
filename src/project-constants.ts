@@ -1,6 +1,6 @@
+import { Expansions, Campaigns } from 'types/types'
+
 // const campaigns = ['GLOOMHAVEN', 'JOTL', 'FROSTHAVEN'] as const
-export type Campaigns = 'GLOOMHAVEN' | 'JOTL' | 'FROSTHAVEN'
-export type Expansions = 'FC'
 export type ExpansionTypes = Record<
   Expansions,
   {
