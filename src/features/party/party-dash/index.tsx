@@ -22,7 +22,7 @@ import CreateScenarioModal from 'features/scenario/create-scenario/create-scenar
 // import Brute from 'assets/icons/Brute'
 
 import CreateCharacterModal from 'features/character/create-character-modal'
-import BeastTyrantSvg from 'assets/icons/BeastTyrant'
+import BeastTyrantSvg from 'assets/icons/class-icons/BeastTyrant'
 // import { GiBrute } from 'react-icons/gi'
 // import PartyIcon from '../party-icon'
 
@@ -31,7 +31,7 @@ type PartyDashProps = {
 }
 const PartyDash = ({ party }: PartyDashProps) => {
   const [isScenarioModalOpen, setIsScenarioModalOpen] = useState(false)
-  const [isCharacterModalOpen, setIsCharacterModalOpen] = useState(false)
+  const [isCharacterModalOpen, setIsCharacterModalOpen] = useState(true)
 
   return (
     <>
@@ -98,7 +98,10 @@ const PartyDash = ({ party }: PartyDashProps) => {
         <CreateScenarioModal setIsOpen={setIsScenarioModalOpen} />
       )}
       {isCharacterModalOpen && (
-        <CreateCharacterModal setIsOpen={setIsCharacterModalOpen} />
+        <CreateCharacterModal
+          setIsOpen={setIsCharacterModalOpen}
+          party={party}
+        />
       )}
     </>
   )

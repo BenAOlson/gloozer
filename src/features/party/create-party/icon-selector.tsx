@@ -1,5 +1,4 @@
-import { SetState } from 'types/types'
-import { ComboOption } from './types'
+import { SetState, ComboOption } from 'types/types'
 import React from 'react'
 import * as icons from 'react-icons/gi'
 import { EuiComboBox, EuiIcon } from '@elastic/eui'

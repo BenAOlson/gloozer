@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from 'react'
+import React, { createContext, Suspense, useEffect, useState } from 'react'
 import firebase from 'firebase/app'
 import { useParams } from 'react-router-dom'
 import { PartyData, User } from 'types/types'
@@ -19,6 +19,9 @@ import { ImConfused } from 'react-icons/im'
 import CreatePartyModal from './create-party/create-party-modal'
 import PartyDash from './party-dash'
 
+//TODO: only use this if needed
+export const PartyContext = createContext<PartyData>({} as PartyData)
+
 /*
     TODO:
     ---
@@ -27,6 +30,7 @@ import PartyDash from './party-dash'
         * Still need to check if party exists, but don't need to waste another check on if user has joined
         * Get rid of callback hell
         * Probably split most of this up
+      * Decide between passing party as prop, or using party context
  */
 
 type UnjoinedParty =
@@ -125,7 +129,11 @@ const Party = ({ user }: PartyDashProps) => {
   }
 
   if (party) {
-    return <PartyDash party={party} />
+    return (
+      <PartyContext.Provider value={party}>
+        <PartyDash party={party} />
+      </PartyContext.Provider>
+    )
   }
 
   const LoadingSpinner = (

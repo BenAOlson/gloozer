@@ -1,5 +1,10 @@
-import { BoolSetState, Campaigns, Expansions } from 'types/types'
-import { ComboOption } from './types'
+import {
+  BoolSetState,
+  Campaigns,
+  Expansions,
+  PartyData,
+  ComboOption,
+} from 'types/types'
 import React, { useContext, useState } from 'react'
 import { nanoid } from 'nanoid'
 import firebase from 'firebase/app'

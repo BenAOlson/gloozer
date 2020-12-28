@@ -1,3 +1,4 @@
+import { EuiComboBoxOptionOption } from '@elastic/eui'
 import { Dispatch, SetStateAction } from 'react'
 
 export type SetState<T> = Dispatch<SetStateAction<T>>
@@ -37,7 +38,9 @@ export type PartyData = {
   expansions?: {
     [key: string]: true
   }
-  unclockedClasses: {
+  unlockedClasses: {
     [key: string]: true
   }
 }
+
+export type ComboOption = EuiComboBoxOptionOption<string>
