@@ -38,3 +38,8 @@ export const campaignTypes: CampaignTypes = {
 export const expansionTypes: ExpansionTypes = {
   FC: { type: 'FC', name: 'Forgotten Circles', campgian: 'GLOOMHAVEN' },
 }
+
+export const setTypes: CampaignTypes & ExpansionTypes = {
+  ...campaignTypes,
+  ...expansionTypes,
+}

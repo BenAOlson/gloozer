@@ -1,14 +1,15 @@
 import { ComboOption, PartyData, SetState } from 'types/types'
 import React from 'react'
+import styled from 'styled-components'
 import { EuiComboBox, EuiIcon } from '@elastic/eui'
 import * as icons from 'assets/icons/class-icons'
-import styled from 'styled-components'
+import playerClasses from 'data/classes'
+import { setTypes } from 'project-constants'
 
 type ClassSelectProps = {
   party: PartyData
   selectedIconOptions: ComboOption[] | undefined
   setSelectedIconOptions: SetState<ComboOption[] | undefined>
-  onChange?: (e: any) => void
   isInvalid?: boolean
 }
 const ClassSelect = ({
@@ -17,13 +18,6 @@ const ClassSelect = ({
   setSelectedIconOptions,
   isInvalid,
 }: ClassSelectProps) => {
-  const comboOptions: ComboOption[] = Object.keys(party.unlockedClasses).map(
-    (className) => ({
-      label: className,
-      iconcolor: 'orange',
-    })
-  )
-
   const onBoxChange = (selectedOptions: ComboOption[]) => {
     setSelectedIconOptions(selectedOptions)
   }
@@ -47,30 +41,58 @@ const ClassSelect = ({
     )
   }
 
+  // group combo box options by set name (e.g. 'Gloomhaven', 'Forgotten Circles')
+  type GroupedOption = {
+    label: string
+    options: ComboOption[]
+  }
+  const groupedOptions = playerClasses.reduce<GroupedOption[]>(
+    (acc, playerClass) => {
+      const isUnlocked = Object.keys(party.unlockedClasses).includes(
+        playerClass.name
+      )
+      if (!isUnlocked) return acc
+
+      const gamesetName = setTypes[playerClass.set].name
+      const gamesetOptionIndex = acc.findIndex(
+        (option) => option.label === gamesetName
+      )
+      console.log('gamesetOptionIndex', gamesetOptionIndex)
+      if (gamesetOptionIndex < 0) {
+        acc.push({
+          label: gamesetName,
+          options: [{ label: playerClass.name }],
+        })
+        return acc
+      }
+
+      acc[gamesetOptionIndex].options.push({ label: playerClass.name })
+      return acc
+    },
+    []
+  )
+
   return (
-    <>
-      <ComboBoxWrapper>
-        <EuiComboBox
-          placeholder="Choose a class"
-          singleSelection={{ asPlainText: true }}
-          options={comboOptions}
-          selectedOptions={selectedIconOptions}
-          // onChange={(whatever) => console.log(whatever)}
-          onChange={onBoxChange}
-          prepend={
-            <EuiIcon
-              type={
-                //TODO: figure out type
-                //@ts-ignore
-                icons[selectedIconOptions?.[0]?.label] ?? 'questionInCircle'
-              }
-            />
-          }
-          renderOption={renderOption}
-          // isInvalid={isInvalid}
-        />
-      </ComboBoxWrapper>
-    </>
+    <ComboBoxWrapper>
+      <EuiComboBox
+        placeholder="Choose a class"
+        singleSelection={{ asPlainText: true }}
+        options={groupedOptions}
+        selectedOptions={selectedIconOptions}
+        onChange={onBoxChange}
+        prepend={
+          <EuiIcon
+            type={
+              //TODO: figure out type
+              //@ts-ignore
+              icons[selectedIconOptions?.[0]?.label] ?? 'questionInCircle'
+            }
+          />
+        }
+        renderOption={renderOption}
+        isInvalid={isInvalid}
+      />
+    </ComboBoxWrapper>
   )
 }
 
