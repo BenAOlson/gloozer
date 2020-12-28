@@ -123,3 +123,4 @@
   * level
   * gold
   * xp
+  * party: [party uuid]

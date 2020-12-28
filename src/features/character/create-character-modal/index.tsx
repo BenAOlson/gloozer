@@ -55,7 +55,7 @@ const CreateCharacterModal = ({
 
   return (
     <EuiOverlayMask onClick={closeModal}>
-      <EuiModal onClose={closeModal} initialFocus="[name=partyName]">
+      <EuiModal onClose={closeModal} initialFocus="[name=characterName]">
         <EuiModalHeader>
           <EuiModalHeaderTitle>New character</EuiModalHeaderTitle>
         </EuiModalHeader>

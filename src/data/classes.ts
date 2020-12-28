@@ -33,6 +33,7 @@ type PlayerClass = {
   race: Race
   set: GameSet
   health: Health
+  color: string
   defaultUnlocked?: boolean
   companion?: CompanionName
 }
@@ -45,6 +46,7 @@ const playerClasses: PlayerClass[] = [
     race: 'Inox',
     set: 'GLOOMHAVEN',
     health: 'HIGH',
+    color: '#6DD0E5',
     defaultUnlocked: true,
   },
   {
@@ -53,6 +55,7 @@ const playerClasses: PlayerClass[] = [
     race: 'Savvas',
     set: 'GLOOMHAVEN',
     health: 'HIGH',
+    color: '#939C41',
     defaultUnlocked: true,
   },
   {
@@ -61,6 +64,7 @@ const playerClasses: PlayerClass[] = [
     race: 'Human',
     set: 'GLOOMHAVEN',
     health: 'MED',
+    color: '#88C54C',
     defaultUnlocked: true,
   },
   {
@@ -69,6 +73,7 @@ const playerClasses: PlayerClass[] = [
     race: 'Vermling',
     set: 'GLOOMHAVEN',
     health: 'LOW',
+    color: '#6480AF',
     defaultUnlocked: true,
   },
   {
@@ -77,6 +82,7 @@ const playerClasses: PlayerClass[] = [
     race: 'Orchid',
     set: 'GLOOMHAVEN',
     health: 'LOW',
+    color: '#A17AB3',
     defaultUnlocked: true,
   },
   {
@@ -85,6 +91,7 @@ const playerClasses: PlayerClass[] = [
     race: 'Quatryl',
     set: 'GLOOMHAVEN',
     health: 'MED',
+    color: '#BBA188',
     defaultUnlocked: true,
   },
   {
@@ -93,6 +100,7 @@ const playerClasses: PlayerClass[] = [
     race: 'Orchid',
     set: 'GLOOMHAVEN',
     health: 'MED',
+    color: '#37A7CD',
   },
   {
     name: 'Sunkeeper',
@@ -100,6 +108,7 @@ const playerClasses: PlayerClass[] = [
     race: 'Valrath',
     set: 'GLOOMHAVEN',
     health: 'HIGH',
+    color: '#FADD79',
   },
   {
     name: 'Summoner',
@@ -107,6 +116,7 @@ const playerClasses: PlayerClass[] = [
     race: 'Aesther',
     set: 'GLOOMHAVEN',
     health: 'MED',
+    color: '#C75C8A',
   },
   {
     name: 'Nightshroud',
@@ -114,6 +124,7 @@ const playerClasses: PlayerClass[] = [
     race: 'Aesther',
     set: 'GLOOMHAVEN',
     health: 'MED',
+    color: '#696DB4',
   },
   {
     name: 'Elementalist',
@@ -121,6 +132,7 @@ const playerClasses: PlayerClass[] = [
     race: 'Savvas',
     set: 'GLOOMHAVEN',
     health: 'LOW',
+    color: '#9E9E9E',
   },
   {
     name: 'Soothsinger',
@@ -128,6 +140,7 @@ const playerClasses: PlayerClass[] = [
     race: 'Quatryl',
     set: 'GLOOMHAVEN',
     health: 'LOW',
+    color: '#E17267',
   },
   {
     name: 'Quartermaster',
@@ -135,6 +148,7 @@ const playerClasses: PlayerClass[] = [
     race: 'Valrath',
     set: 'GLOOMHAVEN',
     health: 'HIGH',
+    color: '#D98735',
   },
   {
     name: 'Plagueherald',
@@ -142,6 +156,7 @@ const playerClasses: PlayerClass[] = [
     race: 'Harrower',
     set: 'GLOOMHAVEN',
     health: 'HIGH',
+    color: '#45928C',
   },
   {
     name: 'Berserker',
@@ -149,6 +164,7 @@ const playerClasses: PlayerClass[] = [
     race: 'Inox',
     set: 'GLOOMHAVEN',
     health: 'HIGH',
+    color: '#C75847',
   },
   {
     name: 'Beast Tyrant',
@@ -156,6 +172,7 @@ const playerClasses: PlayerClass[] = [
     race: 'Vermling',
     set: 'GLOOMHAVEN',
     health: 'LOW',
+    color: '#A67765',
     companion: 'Bear',
   },
   {
@@ -164,6 +181,7 @@ const playerClasses: PlayerClass[] = [
     race: 'Human',
     set: 'GLOOMHAVEN',
     health: 'MED',
+    color: '#F8F8F6',
   },
   //*---------------------------------*//
   //*       Forgotten Circles         *//
@@ -174,6 +192,7 @@ const playerClasses: PlayerClass[] = [
     race: 'Aesther',
     set: 'FC',
     health: 'LOW',
+    color: '#83C1D0',
     defaultUnlocked: true,
   },
 ]

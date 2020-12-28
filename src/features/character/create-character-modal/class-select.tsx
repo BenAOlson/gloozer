@@ -1,7 +1,7 @@
 import { ComboOption, PartyData, SetState } from 'types/types'
 import React from 'react'
 import styled from 'styled-components'
-import { EuiComboBox, EuiIcon } from '@elastic/eui'
+import { EuiComboBox, EuiHighlight, EuiIcon } from '@elastic/eui'
 import * as icons from 'assets/icons/class-icons'
 import playerClasses from 'data/classes'
 import { setTypes } from 'project-constants'
@@ -27,16 +27,17 @@ const ClassSelect = ({
     searchValue: string,
     contentClassName: string
   ) => {
-    const { label } = option
+    const { label, color } = option
     return (
       <span className={contentClassName}>
         <EuiIcon
           //TODO: figure out typing here
           // @ts-ignore
           type={icons[label] ?? 'questionInCircle'}
-          style={{ marginRight: '0.7em' }}
+          //using the color prop doesn't work for whatever reason
+          style={{ marginRight: '0.7em', color }}
         />
-        {label}
+        <EuiHighlight search={searchValue}>{label}</EuiHighlight>
       </span>
     )
   }
@@ -44,7 +45,7 @@ const ClassSelect = ({
   // group combo box options by set name (e.g. 'Gloomhaven', 'Forgotten Circles')
   type GroupedOption = {
     label: string
-    options: ComboOption[]
+    options: Array<ComboOption>
   }
   const groupedOptions = playerClasses.reduce<GroupedOption[]>(
     (acc, playerClass) => {
@@ -57,20 +58,25 @@ const ClassSelect = ({
       const gamesetOptionIndex = acc.findIndex(
         (option) => option.label === gamesetName
       )
-      console.log('gamesetOptionIndex', gamesetOptionIndex)
+      const playerClassOption = {
+        label: playerClass.name,
+        color: playerClass.color,
+      }
       if (gamesetOptionIndex < 0) {
         acc.push({
           label: gamesetName,
-          options: [{ label: playerClass.name }],
+          options: [playerClassOption],
         })
         return acc
       }
 
-      acc[gamesetOptionIndex].options.push({ label: playerClass.name })
+      acc[gamesetOptionIndex].options.push(playerClassOption)
       return acc
     },
     []
   )
+
+  const selectedLabel = selectedIconOptions?.[0]?.label
 
   return (
     <ComboBoxWrapper>
@@ -87,6 +93,7 @@ const ClassSelect = ({
               //@ts-ignore
               icons[selectedIconOptions?.[0]?.label] ?? 'questionInCircle'
             }
+            color={selectedLabel ? selectedIconOptions?.[0]?.color : 'primary'}
           />
         }
         renderOption={renderOption}
