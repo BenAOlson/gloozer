@@ -22,7 +22,6 @@ import CreateScenarioModal from 'features/scenario/create-scenario/create-scenar
 // import Brute from 'assets/icons/Brute'
 
 import CreateCharacterModal from 'features/character/create-character-modal'
-import BeastTyrantSvg from 'assets/icons/class-icons/BeastTyrant'
 // import { GiBrute } from 'react-icons/gi'
 // import PartyIcon from '../party-icon'
 
@@ -71,24 +70,6 @@ const PartyDash = ({ party }: PartyDashProps) => {
                 >
                   New Character
                 </EuiButton>
-              </EuiFlexItem>
-            </EuiFlexGroup>
-            <EuiSpacer />
-            <EuiFlexGroup>
-              <EuiFlexItem grow={false}>
-                <BeastTyrantSvg fill="#fff" />
-              </EuiFlexItem>
-              <EuiFlexItem grow={false}>
-                <EuiCard
-                  icon={
-                    <EuiIcon size="xxl" type={BeastTyrantSvg} color="warning" />
-                  }
-                  title="Brutus"
-                  description="This is a fahggin' Brute"
-                  onClick={() => {
-                    console.log('clicked Brute')
-                  }}
-                />
               </EuiFlexItem>
             </EuiFlexGroup>
           </EuiPageContentBody>
