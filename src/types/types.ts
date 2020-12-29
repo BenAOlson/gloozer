@@ -29,6 +29,7 @@ export type PartyUser = {
   isAdmin?: true
 }
 export type PartyData = {
+  uid: string
   displayName: string
   iconName: string
   campaignType: string
@@ -41,6 +42,16 @@ export type PartyData = {
   unlockedClasses: {
     [key: string]: true
   }
+}
+
+export type Character = {
+  displayName: string
+  //TODO: be safer/more specific
+  classType: string
+  level: number
+  gold: number
+  xp: number
+  party: string
 }
 
 export type ComboOption = EuiComboBoxOptionOption<string>

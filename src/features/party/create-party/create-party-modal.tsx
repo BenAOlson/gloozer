@@ -232,6 +232,7 @@ const CreatePartyModal = ({ setIsOpen }: CreatePartyModalProps) => {
         color: 'success',
       })
       setIsOpen(false)
+      return
     } catch (err) {
       console.error(err)
       addToast({

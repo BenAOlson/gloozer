@@ -58,7 +58,7 @@ const Party = ({ user }: PartyDashProps) => {
     ref.on(
       'value',
       (snapshot) => {
-        setParty(snapshot.val())
+        setParty({ ...snapshot.val(), uid: snapshot.key })
       },
       (err: Error) => {
         console.warn(err.message)

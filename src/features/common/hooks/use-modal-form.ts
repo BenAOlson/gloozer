@@ -3,7 +3,7 @@ import { SetState } from 'types/types'
 
 type ClearErr<K extends string> = (
   key: K
-) => (e: React.ChangeEvent<unknown>) => void
+) => (e?: React.ChangeEvent<unknown>) => void
 type Errs<K extends string> = Record<K, { isErr: boolean; msg: string }>
 type UseModalForm<K extends string> = {
   errs: Errs<K>
@@ -30,7 +30,9 @@ export function useModalForm<K extends string>(errKeys: K[]): UseModalForm<K> {
     msg && errMsgs.push(msg)
   })
 
-  const clearErr: ClearErr<K> = (key: K) => (e: React.ChangeEvent<unknown>) => {
+  const clearErr: ClearErr<K> = (key: K) => (
+    e?: React.ChangeEvent<unknown>
+  ) => {
     if (errs[key].isErr) {
       setErrs((prevErrs) => ({
         ...prevErrs,

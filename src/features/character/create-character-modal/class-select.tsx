@@ -10,17 +10,22 @@ type ClassSelectProps = {
   party: PartyData
   selectedIconOptions: ComboOption[] | undefined
   setSelectedIconOptions: SetState<ComboOption[] | undefined>
-  isInvalid?: boolean
+  isInvalid: boolean
+  clearErr: () => void
 }
 const ClassSelect = ({
   party,
   selectedIconOptions,
   setSelectedIconOptions,
   isInvalid,
+  clearErr,
 }: ClassSelectProps) => {
   const onBoxChange = (selectedOptions: ComboOption[]) => {
     setSelectedIconOptions(selectedOptions)
+    clearErr()
   }
+
+  console.log('class select rendered')
 
   const renderOption = (
     option: ComboOption,
@@ -98,6 +103,7 @@ const ClassSelect = ({
         }
         renderOption={renderOption}
         isInvalid={isInvalid}
+        fullWidth
       />
     </ComboBoxWrapper>
   )

@@ -22,6 +22,7 @@ import CreateScenarioModal from 'features/scenario/create-scenario/create-scenar
 // import Brute from 'assets/icons/Brute'
 
 import CreateCharacterModal from 'features/character/create-character-modal'
+import DummyCharacterCard from 'features/character/dummy-character-card'
 // import { GiBrute } from 'react-icons/gi'
 // import PartyIcon from '../party-icon'
 
@@ -70,6 +71,12 @@ const PartyDash = ({ party }: PartyDashProps) => {
                 >
                   New Character
                 </EuiButton>
+              </EuiFlexItem>
+            </EuiFlexGroup>
+            <EuiSpacer />
+            <EuiFlexGroup>
+              <EuiFlexItem>
+                <DummyCharacterCard party={party} />
               </EuiFlexItem>
             </EuiFlexGroup>
           </EuiPageContentBody>
