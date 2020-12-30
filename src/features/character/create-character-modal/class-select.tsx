@@ -1,6 +1,5 @@
 import { ComboOption, PartyData, SetState } from 'types/types'
 import React from 'react'
-import styled from 'styled-components'
 import { EuiComboBox, EuiHighlight, EuiIcon } from '@elastic/eui'
 import * as icons from 'assets/icons/class-icons'
 import playerClasses from 'data/classes'
@@ -38,7 +37,7 @@ const ClassSelect = ({
         <EuiIcon
           //TODO: figure out typing here
           // @ts-ignore
-          type={icons[label] ?? 'questionInCircle'}
+          type={icons[label] ?? 'empty'}
           //using the color prop doesn't work for whatever reason
           style={{ marginRight: '0.7em', color }}
         />
@@ -81,41 +80,35 @@ const ClassSelect = ({
     []
   )
 
-  const selectedLabel = selectedIconOptions?.[0]?.label
-
   return (
-    <ComboBoxWrapper>
-      <EuiComboBox
-        placeholder="Choose a class"
-        singleSelection={{ asPlainText: true }}
-        options={groupedOptions}
-        selectedOptions={selectedIconOptions}
-        onChange={onBoxChange}
-        prepend={
-          <EuiIcon
-            type={
-              //TODO: figure out type
-              //@ts-ignore
-              icons[selectedIconOptions?.[0]?.label] ?? 'questionInCircle'
-            }
-            color={selectedLabel ? selectedIconOptions?.[0]?.color : 'primary'}
-          />
-        }
-        renderOption={renderOption}
-        isInvalid={isInvalid}
-        fullWidth
-      />
-    </ComboBoxWrapper>
+    <EuiComboBox
+      placeholder="Choose a class"
+      singleSelection={{ asPlainText: true }}
+      options={groupedOptions}
+      selectedOptions={selectedIconOptions}
+      onChange={onBoxChange}
+      prepend={
+        <EuiIcon
+          type={
+            //TODO: figure out type
+            //@ts-ignore
+            icons[selectedIconOptions?.[0]?.label] ?? 'empty'
+          }
+          //TODO: remove when height bug fixed in EUI
+          style={{
+            padding: '12px 8px',
+            //style prop overrides style applied by color prop below
+            color: selectedIconOptions?.[0]?.color,
+          }}
+          //TODO: return after style prop is removed
+          // color={selectedIconOptions?.[0]?.color}
+        />
+      }
+      renderOption={renderOption}
+      isInvalid={isInvalid}
+      fullWidth
+    />
   )
 }
 
 export default ClassSelect
-
-//TODO: remove when height bug fixed in EUI
-//? using styled(EuiComboBox) was making typescript unhappy, and this
-//? is needed to fix bug with icons
-const ComboBoxWrapper = styled.div`
-  .euiFormControlLayout {
-    height: 40px;
-  }
-`
