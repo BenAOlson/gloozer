@@ -1,10 +1,4 @@
-import {
-  BoolSetState,
-  Campaigns,
-  Expansions,
-  PartyData,
-  ComboOption,
-} from 'types/types'
+import { BoolSetState, Campaigns, Expansions, ComboOption } from 'types/types'
 import React, { useContext, useState } from 'react'
 import { nanoid } from 'nanoid'
 import firebase from 'firebase/app'
@@ -22,13 +16,15 @@ import {
   EuiButton,
   EuiSelect,
   EuiCheckboxGroup,
+  EuiIcon,
 } from '@elastic/eui'
-import IconSelector from './icon-selector'
+import * as icons from 'react-icons/gi'
 import { GlobalToastContext } from 'features/global-toast'
 import { useModalForm } from 'features/common/hooks/use-modal-form'
 import { useHistory } from 'react-router-dom'
 import { campaignTypes, expansionTypes } from 'project-constants'
 import playerClasses from 'data/classes'
+import IconComboBox from 'features/common/icon-combo-box'
 
 type KeyTrueObj = {
   [key: string]: true
@@ -272,11 +268,15 @@ const CreatePartyModal = ({ setIsOpen }: CreatePartyModalProps) => {
               />
             </EuiFormRow>
             <EuiFormRow label="Icon" isInvalid={errs.iconName.isErr} fullWidth>
-              <IconSelector
-                selectedIconOptions={selectedIconOptions}
-                setSelectedIconOptions={setSelectedIconOptions}
-                onChange={clearErr('iconName')}
+              <IconComboBox
+                selectedOptions={selectedIconOptions}
+                setSelectedOptions={setSelectedIconOptions}
+                options={getIconOptions(Object.keys(icons))}
+                Icon={EuiIcon}
+                getIcon={(key) => (icons as any)?.[key]}
                 isInvalid={errs.iconName.isErr}
+                clearErr={clearErr('iconName')}
+                placeholder="Select an icon for your party"
               />
             </EuiFormRow>
             <EuiFormRow
@@ -302,20 +302,11 @@ const CreatePartyModal = ({ setIsOpen }: CreatePartyModalProps) => {
               >
                 <EuiCheckboxGroup
                   options={expansionOptions}
-                  // options={checkboxes}
                   idToSelectedMap={expansionsChecked}
                   onChange={handleExpansionChange}
                 />
               </EuiFormRow>
             )}
-            {/* {expansionOptions.map((option) => (
-              <EuiCheckbox
-                name={option.name}
-                label={option.label}
-                id={option.id}
-                onChange={(e) => console.log(e)}
-              />
-            ))} */}
           </EuiForm>
         </EuiModalBody>
 
@@ -332,3 +323,14 @@ const CreatePartyModal = ({ setIsOpen }: CreatePartyModalProps) => {
 }
 
 export default CreatePartyModal
+
+const getIconOptions = (iconKeys: string[]): ComboOption[] => {
+  const options: ComboOption[] = iconKeys.sort().map((key) => ({
+    label: key
+      .replace(/^Gi/, '')
+      .replace(/((?<!3)[A-Z])/g, ' $1')
+      .trim(),
+    value: key,
+  }))
+  return options
+}

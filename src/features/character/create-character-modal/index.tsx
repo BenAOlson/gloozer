@@ -19,9 +19,15 @@ import {
 } from '@elastic/eui'
 import { GlobalToastContext } from 'features/global-toast'
 import { useModalForm } from 'features/common/hooks/use-modal-form'
-import ClassSelect from './class-select'
 import ClassUnlockModal from 'features/class-unlock/class-unlock-modal'
+import IconComboBox from 'features/common/icon-combo-box'
+import playerClasses from 'data/classes'
+import ClassIcon from 'features/common/icons/class-icon'
 
+type GroupedOption = {
+  label: string
+  options: Array<ComboOption>
+}
 type CreateCharacterModalProps = {
   setIsOpen: BoolSetState
   party: PartyData
@@ -32,9 +38,7 @@ const CreateCharacterModal = ({
 }: CreateCharacterModalProps) => {
   const addToast = useContext(GlobalToastContext)
   const [isClassUnlockOpen, setIsClassUnlockOpen] = useState(false)
-  const [selectedIconOptions, setSelectedIconOptions] = useState<
-    ComboOption[]
-  >()
+  const [selectedOptions, setSelectedOptions] = useState<ComboOption[]>()
   const [characterLevel, setCharacterLevel] = useState('1')
 
   const {
@@ -61,7 +65,7 @@ const CreateCharacterModal = ({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const displayName = e.currentTarget.characterName.value
-    const classType = selectedIconOptions?.[0]?.label
+    const classType = selectedOptions?.[0]?.label
     if (!(displayName && classType)) {
       setErrs({
         characterName: {
@@ -75,8 +79,6 @@ const CreateCharacterModal = ({
         characterLevel: {
           isErr: false,
           msg: '',
-          // isErr: !selectedIconOptions?.length,
-          // msg: !selectedIconOptions?.length ? 'Choose a class' : '',
         },
       })
       return
@@ -114,6 +116,37 @@ const CreateCharacterModal = ({
     }
     setIsLoading(false)
   }
+
+  // group combo box options by set name (e.g. 'Gloomhaven', 'Forgotten Circles')
+  const groupedOptions = playerClasses.reduce<GroupedOption[]>(
+    (acc, playerClass) => {
+      const { name, color, gameset } = playerClass
+      const isUnlocked = Object.keys(party.unlockedClasses).includes(
+        playerClass.name
+      )
+      if (!isUnlocked) return acc
+
+      const gamesetOptionIndex = acc.findIndex(
+        (option) => option.label === gameset
+      )
+      const playerClassOption = {
+        label: name,
+        value: name,
+        color: color,
+      }
+      if (gamesetOptionIndex < 0) {
+        acc.push({
+          label: gameset,
+          options: [playerClassOption],
+        })
+        return acc
+      }
+
+      acc[gamesetOptionIndex].options.push(playerClassOption)
+      return acc
+    },
+    []
+  )
 
   return (
     <>
@@ -160,33 +193,18 @@ const CreateCharacterModal = ({
                 aria-required
               >
                 <>
-                  <ClassSelect
-                    party={party}
-                    selectedIconOptions={selectedIconOptions}
-                    setSelectedIconOptions={setSelectedIconOptions}
+                  <IconComboBox
+                    selectedOptions={selectedOptions}
+                    setSelectedOptions={setSelectedOptions}
+                    options={groupedOptions}
+                    Icon={ClassIcon}
                     isInvalid={errs.characterClass.isErr}
                     clearErr={clearErr('characterClass')}
+                    placeholder="Choose a class"
                   />
-                  {/* <EuiSpacer size="xs" />
-                <EuiButton size="s" color="secondary" fullWidth>
-                  Add/unlock more classes
-                </EuiButton> */}
                 </>
               </EuiFormRow>
-              {/* <EuiFormRow
-              // label="Add"
-              // isInvalid={errs.characterClass.isErr}
-              fullWidth
-            >
-              <EuiButton size="s" color="secondary">
-                Add/unlock more classes
-              </EuiButton>
-            </EuiFormRow> */}
-              <EuiFormRow
-                label="Starting level"
-                // isInvalid={errs.characterClass.isErr}
-                fullWidth
-              >
+              <EuiFormRow label="Starting level" fullWidth>
                 <EuiRange
                   min={1}
                   max={9}
@@ -198,7 +216,6 @@ const CreateCharacterModal = ({
                 />
               </EuiFormRow>
             </EuiForm>
-            {/* {isClassUnlockOpen && <ClassUnlock party={party} />} */}
           </EuiModalBody>
 
           <EuiModalFooter>

@@ -4,6 +4,12 @@ import { EuiComboBox, EuiHighlight, EuiIcon } from '@elastic/eui'
 import * as icons from 'assets/icons/class-icons'
 import playerClasses from 'data/classes'
 import { gamesetTypes } from 'project-constants'
+import ClassIcon from 'features/common/icons/class-icon'
+import styled from '@emotion/styled'
+
+//! ----------
+//! Deprecated
+//! ----------
 
 type ClassSelectProps = {
   party: PartyData
@@ -24,23 +30,17 @@ const ClassSelect = ({
     clearErr()
   }
 
-  console.log('class select rendered')
+  // console.log('class select rendered')
 
   const renderOption = (
     option: ComboOption,
     searchValue: string,
     contentClassName: string
   ) => {
-    const { label, color } = option
+    const { label } = option
     return (
       <span className={contentClassName}>
-        <EuiIcon
-          //TODO: figure out typing here
-          // @ts-ignore
-          type={icons[label.replace(' ', '')] ?? 'empty'}
-          //using the color prop doesn't work for whatever reason
-          style={{ marginRight: '0.7em', color }}
-        />
+        <ListClassIcon type={label} />
         <EuiHighlight search={searchValue}>{label}</EuiHighlight>
       </span>
     )
@@ -64,6 +64,7 @@ const ClassSelect = ({
       )
       const playerClassOption = {
         label: playerClass.name,
+        value: playerClass.name,
         color: playerClass.color,
       }
       if (gamesetOptionIndex < 0) {
@@ -112,3 +113,8 @@ const ClassSelect = ({
 }
 
 export default ClassSelect
+
+const ListClassIcon = styled(ClassIcon)({
+  //TODO: use theming here
+  marginRight: '0.7em',
+})

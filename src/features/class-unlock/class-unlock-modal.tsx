@@ -132,11 +132,7 @@ const ClassUnlockModal = ({
                 <EuiSpacer size="s" />
                 <IconGrid>
                   {newClasses.map((newClass, i) => (
-                    <ClassIcon
-                      key={newClass}
-                      size="xxl"
-                      gameclassName={newClass}
-                    />
+                    <ClassIcon key={newClass} size="xxl" type={newClass} />
                   ))}
                 </IconGrid>
               </>
@@ -155,7 +151,7 @@ const ClassUnlockModal = ({
                     <ClassIcon
                       key={removedClass}
                       size="xxl"
-                      gameclassName={removedClass}
+                      type={removedClass}
                     />
                   ))}
                 </IconGrid>

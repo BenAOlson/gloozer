@@ -66,7 +66,7 @@ const ClassUnlockCards = ({
                   </h4>
                 </EuiText>
                 <EuiSpacer size="xs" />
-                <ClassIcon gameclassName={name} size="xxl" />
+                <ClassIcon type={name} size="xxl" />
               </>
             }
             checkableType="checkbox"
