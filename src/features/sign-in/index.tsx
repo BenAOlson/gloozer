@@ -17,6 +17,7 @@ import FacebookSignin from './buttons/facebook-signin'
 // import MircosoftSignin from './buttons/microsoft-signin'
 import GithubSignin from './buttons/github-signin'
 import YahooSignin from './buttons/yahoo-signin'
+import TwitterSignin from './buttons/twitter-signin'
 
 const SignIn = () => {
   const user = useContext(UserContext)
@@ -51,6 +52,8 @@ const SignIn = () => {
               <GoogleSignin />
               <EuiSpacer size="m" />
               <FacebookSignin />
+              <EuiSpacer size="m" />
+              <TwitterSignin />
               <EuiSpacer size="m" />
               {/* <MircosoftSignin />
               <EuiSpacer size="m" /> */}

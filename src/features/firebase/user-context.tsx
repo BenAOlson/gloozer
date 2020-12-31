@@ -31,14 +31,14 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       //remove db listener if there is no active user
-      ref && ref.off()
+      ref?.off()
       setUser(firebaseUser)
     })
 
     return () => {
       // authUnsubRef.current && authUnsubRef.current()
       authUnsub()
-      ref && ref.off()
+      ref?.off()
     }
   }, [])
 
