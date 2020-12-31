@@ -50,7 +50,7 @@ const ClassUnlockCards = ({
   const groupedClasses = gamesetOrganizedClasses.map(
     ([gameset, gamesetClasses], i) => {
       const classes = gamesetClasses?.map((playerClass) => {
-        const { name, color, defaultUnlocked } = playerClass
+        const { name, defaultUnlocked } = playerClass
         const isChecked = selectedClasses.includes(playerClass.name)
         const isUnlocked = Object.keys(party.unlockedClasses).includes(name)
         const isRevealed = isUnlocked || defaultUnlocked

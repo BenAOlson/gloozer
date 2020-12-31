@@ -19,7 +19,7 @@ import { ImConfused } from 'react-icons/im'
 import CreatePartyModal from './create-party/create-party-modal'
 import PartyDash from './party-dash'
 
-//TODO: only use this if needed
+//TODO: this is being used, but party is also being passed as props
 export const PartyContext = createContext<PartyData>({} as PartyData)
 
 /*

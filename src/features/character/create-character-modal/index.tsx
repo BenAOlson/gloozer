@@ -14,17 +14,12 @@ import {
   EuiButtonEmpty,
   EuiButton,
   EuiRange,
-  EuiSpacer,
   EuiText,
   EuiLink,
-  EuiPopover,
-  EuiHeader,
-  BREAKPOINTS,
 } from '@elastic/eui'
 import { GlobalToastContext } from 'features/global-toast'
 import { useModalForm } from 'features/common/hooks/use-modal-form'
 import ClassSelect from './class-select'
-import ClassUnlockCards from 'features/class-unlock/class-unlock-cards'
 import ClassUnlockModal from 'features/class-unlock/class-unlock-modal'
 
 type CreateCharacterModalProps = {
@@ -36,7 +31,7 @@ const CreateCharacterModal = ({
   party,
 }: CreateCharacterModalProps) => {
   const addToast = useContext(GlobalToastContext)
-  const [isClassUnlockOpen, setIsClassUnlockOpen] = useState(true)
+  const [isClassUnlockOpen, setIsClassUnlockOpen] = useState(false)
   const [selectedIconOptions, setSelectedIconOptions] = useState<
     ComboOption[]
   >()

@@ -31,7 +31,7 @@ type PartyDashProps = {
 }
 const PartyDash = ({ party }: PartyDashProps) => {
   const [isScenarioModalOpen, setIsScenarioModalOpen] = useState(false)
-  const [isCharacterModalOpen, setIsCharacterModalOpen] = useState(true)
+  const [isCharacterModalOpen, setIsCharacterModalOpen] = useState(false)
 
   return (
     <>
