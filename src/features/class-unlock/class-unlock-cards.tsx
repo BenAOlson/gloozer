@@ -45,7 +45,6 @@ const ClassUnlockCards = ({
       {}
     )
   )
-  console.log('gamesetOrganizedClasses', gamesetOrganizedClasses)
 
   const groupedClasses = gamesetOrganizedClasses.map(
     ([gameset, gamesetClasses], i) => {
@@ -56,42 +55,40 @@ const ClassUnlockCards = ({
         const isRevealed = isUnlocked || defaultUnlocked
 
         return (
-          <div
-            onClick={handleClick(name)}
-            style={{ cursor: 'pointer' }}
+          <EuiCheckableCard
+            id={name}
             key={name}
-          >
-            <EuiCheckableCard
-              id={name}
-              key={name}
-              label={
+            label={
+              <>
                 <EuiText>
                   <h4 style={{ fontSize: '1.2em' }}>
                     {isRevealed ? name : '???'}
                   </h4>
                 </EuiText>
-              }
-              checkableType="checkbox"
-              value={name}
-              checked={isChecked}
-              onChange={handleClick(name)}
-              // onChange={() => {}}
-            >
-              <ClassIcon gameclassName={name} size="xxl" />
-            </EuiCheckableCard>
-          </div>
+                <EuiSpacer size="xs" />
+                <ClassIcon gameclassName={name} size="xxl" />
+              </>
+            }
+            checkableType="checkbox"
+            value={name}
+            checked={isChecked}
+            onChange={handleClick(name)}
+            // onChange={(e) => {
+            //   e.preventDefault()
+            // }}
+          />
         )
       })
 
       return (
-        <>
+        <React.Fragment key={gameset}>
           <EuiText>
             <h3>{gameset}</h3>
           </EuiText>
           <EuiSpacer size="s" />
           <Grid>{classes}</Grid>
           {i < gamesetOrganizedClasses.length - 1 && <EuiSpacer />}
-        </>
+        </React.Fragment>
       )
     }
   )
