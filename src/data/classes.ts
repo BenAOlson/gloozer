@@ -1,6 +1,6 @@
 import { Campaigns, Expansions } from 'types/types'
 
-type GameSet = Campaigns | Expansions
+export type GameSet = Campaigns | Expansions
 type Health = 'LOW' | 'MED' | 'HIGH'
 type Race =
   | 'Valrath'
@@ -22,16 +22,16 @@ type Companion = {
 export const companions: Companion[] = [
   {
     name: 'Bear',
-    set: 'GLOOMHAVEN',
+    set: 'Gloomhaven',
     health: 'HIGH',
   },
 ]
 
-type PlayerClass = {
+export type PlayerClass = {
   name: string
   abbrev?: string
   race: Race
-  set: GameSet
+  gameset: GameSet
   health: Health
   color: string
   defaultUnlocked?: boolean
@@ -44,52 +44,47 @@ const playerClasses: PlayerClass[] = [
   {
     name: 'Brute',
     race: 'Inox',
-    set: 'GLOOMHAVEN',
+    gameset: 'Gloomhaven',
     health: 'HIGH',
     color: '#6DD0E5',
     defaultUnlocked: true,
   },
   {
     name: 'Cragheart',
-    abbrev: 'CH',
     race: 'Savvas',
-    set: 'GLOOMHAVEN',
+    gameset: 'Gloomhaven',
     health: 'HIGH',
     color: '#939C41',
     defaultUnlocked: true,
   },
   {
     name: 'Scoundrel',
-    abbrev: 'SC',
     race: 'Human',
-    set: 'GLOOMHAVEN',
+    gameset: 'Gloomhaven',
     health: 'MED',
     color: '#88C54C',
     defaultUnlocked: true,
   },
   {
     name: 'Mindthief',
-    abbrev: 'MT',
     race: 'Vermling',
-    set: 'GLOOMHAVEN',
+    gameset: 'Gloomhaven',
     health: 'LOW',
     color: '#6480AF',
     defaultUnlocked: true,
   },
   {
     name: 'Spellweaver',
-    abbrev: 'SW',
     race: 'Orchid',
-    set: 'GLOOMHAVEN',
+    gameset: 'Gloomhaven',
     health: 'LOW',
     color: '#A17AB3',
     defaultUnlocked: true,
   },
   {
     name: 'Tinkerer',
-    abbrev: 'TK',
     race: 'Quatryl',
-    set: 'GLOOMHAVEN',
+    gameset: 'Gloomhaven',
     health: 'MED',
     color: '#BBA188',
     defaultUnlocked: true,
@@ -98,7 +93,7 @@ const playerClasses: PlayerClass[] = [
     name: 'Doomstalker',
     abbrev: 'DS',
     race: 'Orchid',
-    set: 'GLOOMHAVEN',
+    gameset: 'Gloomhaven',
     health: 'MED',
     color: '#37A7CD',
   },
@@ -106,7 +101,7 @@ const playerClasses: PlayerClass[] = [
     name: 'Sunkeeper',
     abbrev: 'SK',
     race: 'Valrath',
-    set: 'GLOOMHAVEN',
+    gameset: 'Gloomhaven',
     health: 'HIGH',
     color: '#FADD79',
   },
@@ -114,7 +109,7 @@ const playerClasses: PlayerClass[] = [
     name: 'Summoner',
     abbrev: 'SM',
     race: 'Aesther',
-    set: 'GLOOMHAVEN',
+    gameset: 'Gloomhaven',
     health: 'MED',
     color: '#C75C8A',
   },
@@ -122,7 +117,7 @@ const playerClasses: PlayerClass[] = [
     name: 'Nightshroud',
     abbrev: 'NS',
     race: 'Aesther',
-    set: 'GLOOMHAVEN',
+    gameset: 'Gloomhaven',
     health: 'MED',
     color: '#696DB4',
   },
@@ -130,7 +125,7 @@ const playerClasses: PlayerClass[] = [
     name: 'Elementalist',
     abbrev: 'EL',
     race: 'Savvas',
-    set: 'GLOOMHAVEN',
+    gameset: 'Gloomhaven',
     health: 'LOW',
     color: '#9E9E9E',
   },
@@ -138,7 +133,7 @@ const playerClasses: PlayerClass[] = [
     name: 'Soothsinger',
     abbrev: 'SS',
     race: 'Quatryl',
-    set: 'GLOOMHAVEN',
+    gameset: 'Gloomhaven',
     health: 'LOW',
     color: '#E17267',
   },
@@ -146,7 +141,7 @@ const playerClasses: PlayerClass[] = [
     name: 'Quartermaster',
     abbrev: 'QM',
     race: 'Valrath',
-    set: 'GLOOMHAVEN',
+    gameset: 'Gloomhaven',
     health: 'HIGH',
     color: '#D98735',
   },
@@ -154,7 +149,7 @@ const playerClasses: PlayerClass[] = [
     name: 'Plagueherald',
     abbrev: 'PH',
     race: 'Harrower',
-    set: 'GLOOMHAVEN',
+    gameset: 'Gloomhaven',
     health: 'HIGH',
     color: '#45928C',
   },
@@ -162,7 +157,7 @@ const playerClasses: PlayerClass[] = [
     name: 'Berserker',
     abbrev: 'BS',
     race: 'Inox',
-    set: 'GLOOMHAVEN',
+    gameset: 'Gloomhaven',
     health: 'HIGH',
     color: '#C75847',
   },
@@ -170,16 +165,16 @@ const playerClasses: PlayerClass[] = [
     name: 'Beast Tyrant',
     abbrev: 'BT',
     race: 'Vermling',
-    set: 'GLOOMHAVEN',
+    gameset: 'Gloomhaven',
     health: 'LOW',
     color: '#A67765',
     companion: 'Bear',
   },
   {
-    name: 'Sawbone',
+    name: 'Sawbones',
     abbrev: 'SB',
     race: 'Human',
-    set: 'GLOOMHAVEN',
+    gameset: 'Gloomhaven',
     health: 'MED',
     color: '#F8F8F6',
   },
@@ -188,9 +183,8 @@ const playerClasses: PlayerClass[] = [
   //*---------------------------------*//
   {
     name: 'Diviner',
-    abbrev: 'DV',
     race: 'Aesther',
-    set: 'FC',
+    gameset: 'Forgotten Circles',
     health: 'LOW',
     color: '#83C1D0',
     defaultUnlocked: true,

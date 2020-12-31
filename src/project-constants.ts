@@ -1,6 +1,6 @@
 import { Expansions, Campaigns } from 'types/types'
 
-// const campaigns = ['GLOOMHAVEN', 'JOTL', 'FROSTHAVEN'] as const
+// const campaigns = ['Gloomhaven', 'Jaws of the Lion', 'Frosthaven'] as const
 export type ExpansionTypes = Record<
   Expansions,
   {
@@ -25,21 +25,28 @@ type CampaignTypes = Record<
 >
 
 export const campaignTypes: CampaignTypes = {
-  GLOOMHAVEN: {
-    type: 'GLOOMHAVEN',
+  Gloomhaven: {
+    type: 'Gloomhaven',
     name: 'Gloomhaven',
     expansions: {
-      FC: { type: 'FC', name: 'Forgotten Circles' },
+      'Forgotten Circles': {
+        type: 'Forgotten Circles',
+        name: 'Forgotten Circles',
+      },
     },
   },
-  JOTL: { type: 'JOTL', name: 'Jaws of the Lion' },
-  FROSTHAVEN: { type: 'FROSTHAVEN', name: 'Frosthaven' },
+  'Jaws of the Lion': { type: 'Jaws of the Lion', name: 'Jaws of the Lion' },
+  Frosthaven: { type: 'Frosthaven', name: 'Frosthaven' },
 }
 export const expansionTypes: ExpansionTypes = {
-  FC: { type: 'FC', name: 'Forgotten Circles', campgian: 'GLOOMHAVEN' },
+  'Forgotten Circles': {
+    type: 'Forgotten Circles',
+    name: 'Forgotten Circles',
+    campgian: 'Gloomhaven',
+  },
 }
 
-export const setTypes: CampaignTypes & ExpansionTypes = {
+export const gamesetTypes: CampaignTypes & ExpansionTypes = {
   ...campaignTypes,
   ...expansionTypes,
 }

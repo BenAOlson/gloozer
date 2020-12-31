@@ -182,7 +182,8 @@ const CreatePartyModal = ({ setIsOpen }: CreatePartyModalProps) => {
       const defaultClasses = playerClasses.reduce<KeyTrueObj>(
         (obj, playerClass) => {
           const isDefaultInSelectedSets =
-            playerClass.defaultUnlocked && gameSets.includes(playerClass.set)
+            playerClass.defaultUnlocked &&
+            gameSets.includes(playerClass.gameset)
           // const isDefaultInSelectedSets = playerClass.defaultUnlocked
           if (isDefaultInSelectedSets) obj[playerClass.name] = true
           return obj

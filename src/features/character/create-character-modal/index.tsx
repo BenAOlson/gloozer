@@ -17,10 +17,15 @@ import {
   EuiSpacer,
   EuiText,
   EuiLink,
+  EuiPopover,
+  EuiHeader,
+  BREAKPOINTS,
 } from '@elastic/eui'
 import { GlobalToastContext } from 'features/global-toast'
 import { useModalForm } from 'features/common/hooks/use-modal-form'
 import ClassSelect from './class-select'
+import ClassUnlockCards from 'features/class-unlock/class-unlock-cards'
+import ClassUnlockModal from 'features/class-unlock/class-unlock-modal'
 
 type CreateCharacterModalProps = {
   setIsOpen: BoolSetState
@@ -31,6 +36,7 @@ const CreateCharacterModal = ({
   party,
 }: CreateCharacterModalProps) => {
   const addToast = useContext(GlobalToastContext)
+  const [isClassUnlockOpen, setIsClassUnlockOpen] = useState(true)
   const [selectedIconOptions, setSelectedIconOptions] = useState<
     ComboOption[]
   >()
@@ -115,59 +121,64 @@ const CreateCharacterModal = ({
   }
 
   return (
-    <EuiOverlayMask onClick={closeModal}>
-      <EuiModal onClose={closeModal} initialFocus="[name=characterName]">
-        <EuiModalHeader>
-          <EuiModalHeaderTitle>New character</EuiModalHeaderTitle>
-        </EuiModalHeader>
+    <>
+      <EuiOverlayMask onClick={closeModal}>
+        <EuiModal onClose={closeModal} initialFocus="[name=characterName]">
+          <EuiModalHeader>
+            <EuiModalHeaderTitle>New character</EuiModalHeaderTitle>
+          </EuiModalHeader>
 
-        <EuiModalBody>
-          <EuiForm
-            component="form"
-            onSubmit={handleSubmit}
-            error={errMsgs}
-            isInvalid={!!errMsgs.length}
-            id="scenario-form"
-          >
-            <EuiFormRow
-              label="Character Name"
-              isInvalid={errs.characterName.isErr}
-              fullWidth
-              aria-required
+          <EuiModalBody>
+            <EuiForm
+              component="form"
+              onSubmit={handleSubmit}
+              error={errMsgs}
+              isInvalid={!!errMsgs.length}
+              id="scenario-form"
             >
-              <EuiFieldText
-                name="characterName"
+              <EuiFormRow
+                label="Character Name"
                 isInvalid={errs.characterName.isErr}
-                onChange={clearErr('characterName')}
                 fullWidth
-              />
-            </EuiFormRow>
-            <EuiFormRow
-              label="Class"
-              labelAppend={
-                <EuiText size="xs">
-                  <EuiLink>Add/unlock more classes</EuiLink>
-                </EuiText>
-              }
-              isInvalid={errs.characterClass.isErr}
-              fullWidth
-              aria-required
-            >
-              <>
-                <ClassSelect
-                  party={party}
-                  selectedIconOptions={selectedIconOptions}
-                  setSelectedIconOptions={setSelectedIconOptions}
-                  isInvalid={errs.characterClass.isErr}
-                  clearErr={clearErr('characterClass')}
+                aria-required
+              >
+                <EuiFieldText
+                  name="characterName"
+                  isInvalid={errs.characterName.isErr}
+                  onChange={clearErr('characterName')}
+                  fullWidth
                 />
-                {/* <EuiSpacer size="xs" />
+              </EuiFormRow>
+              <EuiFormRow
+                label="Class"
+                labelAppend={
+                  <EuiText size="xs">
+                    <EuiLink
+                      onClick={() => setIsClassUnlockOpen((isOpen) => !isOpen)}
+                    >
+                      Add/unlock more classes
+                    </EuiLink>
+                  </EuiText>
+                }
+                isInvalid={errs.characterClass.isErr}
+                fullWidth
+                aria-required
+              >
+                <>
+                  <ClassSelect
+                    party={party}
+                    selectedIconOptions={selectedIconOptions}
+                    setSelectedIconOptions={setSelectedIconOptions}
+                    isInvalid={errs.characterClass.isErr}
+                    clearErr={clearErr('characterClass')}
+                  />
+                  {/* <EuiSpacer size="xs" />
                 <EuiButton size="s" color="secondary" fullWidth>
                   Add/unlock more classes
                 </EuiButton> */}
-              </>
-            </EuiFormRow>
-            {/* <EuiFormRow
+                </>
+              </EuiFormRow>
+              {/* <EuiFormRow
               // label="Add"
               // isInvalid={errs.characterClass.isErr}
               fullWidth
@@ -176,38 +187,46 @@ const CreateCharacterModal = ({
                 Add/unlock more classes
               </EuiButton>
             </EuiFormRow> */}
-            <EuiFormRow
-              label="Starting level"
-              // isInvalid={errs.characterClass.isErr}
-              fullWidth
-            >
-              <EuiRange
-                min={1}
-                max={9}
-                value={characterLevel}
-                onChange={onLevelChange}
-                showInput
-                showTicks
+              <EuiFormRow
+                label="Starting level"
+                // isInvalid={errs.characterClass.isErr}
                 fullWidth
-              />
-            </EuiFormRow>
-          </EuiForm>
-        </EuiModalBody>
+              >
+                <EuiRange
+                  min={1}
+                  max={9}
+                  value={characterLevel}
+                  onChange={onLevelChange}
+                  showInput
+                  showTicks
+                  fullWidth
+                />
+              </EuiFormRow>
+            </EuiForm>
+            {/* {isClassUnlockOpen && <ClassUnlock party={party} />} */}
+          </EuiModalBody>
 
-        <EuiModalFooter>
-          <EuiButtonEmpty onClick={closeModal}>Cancel</EuiButtonEmpty>
+          <EuiModalFooter>
+            <EuiButtonEmpty onClick={closeModal}>Cancel</EuiButtonEmpty>
 
-          <EuiButton
-            type="submit"
-            form="scenario-form"
-            isLoading={isLoading}
-            fill
-          >
-            Create
-          </EuiButton>
-        </EuiModalFooter>
-      </EuiModal>
-    </EuiOverlayMask>
+            <EuiButton
+              type="submit"
+              form="scenario-form"
+              isLoading={isLoading}
+              fill
+            >
+              Create
+            </EuiButton>
+          </EuiModalFooter>
+        </EuiModal>
+      </EuiOverlayMask>
+      {isClassUnlockOpen && (
+        <ClassUnlockModal
+          party={party}
+          setIsClassUnlockOpen={setIsClassUnlockOpen}
+        />
+      )}
+    </>
   )
 }
 

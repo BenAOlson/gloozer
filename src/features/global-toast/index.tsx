@@ -8,8 +8,7 @@ import {
   GiGlassCelebration,
 } from 'react-icons/gi'
 
-//TODO: Don't hardcode this
-type ToastColor = 'primary' | 'success' | 'warning' | 'danger' | undefined
+type ToastColor = Toast['color']
 type AddToastToastParam = Omit<Toast, 'id'>
 type AddToast = (toast: AddToastToastParam) => void
 export const GlobalToastContext = createContext<AddToast>({} as AddToast)

@@ -22,8 +22,8 @@
   * displayName
   * iconName
   * campaign
-    * type: ('GLOOMHAVEN' | 'JOTL' | 'FROSTHAVEN' )
-    * expansions?: ('FC')
+    * type: ('Gloomhaven' | 'Jaws of the Lion' | 'Frosthaven' )
+    * expansions?: ('Forgotten Circles')
   * users[]
     * uid
     * displayName
@@ -53,7 +53,7 @@
  
 * scenarios (uuid) (*actual completed scenarios, not like, Scenario #1 from book*)
   * scenarioId (general scenario id, *e.g., id of Scenario #1 from book*)
-  * set ('GLOOMHAVEN' | 'FC' | 'JOTL' | 'FROSTHAVEN' )
+  * set ('Gloomhaven' | 'Forgotten Circles' | 'Jaws of the Lion' | 'Frosthaven' )
   * startTime
   * ?endTime
   * level

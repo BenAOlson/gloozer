@@ -17,6 +17,7 @@ const fbConfig = {
 }
 
 const isDevel = process.env.NODE_ENV === 'development'
+// const isDevel = false
 
 const defaultFirebase = firebase.initializeApp(fbConfig)
 

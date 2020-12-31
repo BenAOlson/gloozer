@@ -4,8 +4,8 @@ import { Dispatch, SetStateAction } from 'react'
 export type SetState<T> = Dispatch<SetStateAction<T>>
 export type BoolSetState = SetState<boolean>
 
-export type Campaigns = 'GLOOMHAVEN' | 'JOTL' | 'FROSTHAVEN'
-export type Expansions = 'FC'
+export type Campaigns = 'Gloomhaven' | 'Jaws of the Lion' | 'Frosthaven'
+export type Expansions = 'Forgotten Circles'
 
 export type UserParty = {
   partyId: string
@@ -55,3 +55,10 @@ export type Character = {
 }
 
 export type ComboOption = EuiComboBoxOptionOption<string>
+
+export type KeyBool = {
+  [key: string]: boolean
+}
+export type KeyTrue = {
+  [key: string]: boolean
+}

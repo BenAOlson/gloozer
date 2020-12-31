@@ -3,7 +3,7 @@ import React from 'react'
 import { EuiComboBox, EuiHighlight, EuiIcon } from '@elastic/eui'
 import * as icons from 'assets/icons/class-icons'
 import playerClasses from 'data/classes'
-import { setTypes } from 'project-constants'
+import { gamesetTypes } from 'project-constants'
 
 type ClassSelectProps = {
   party: PartyData
@@ -37,7 +37,7 @@ const ClassSelect = ({
         <EuiIcon
           //TODO: figure out typing here
           // @ts-ignore
-          type={icons[label] ?? 'empty'}
+          type={icons[label.replace(' ', '')] ?? 'empty'}
           //using the color prop doesn't work for whatever reason
           style={{ marginRight: '0.7em', color }}
         />
@@ -58,7 +58,7 @@ const ClassSelect = ({
       )
       if (!isUnlocked) return acc
 
-      const gamesetName = setTypes[playerClass.set].name
+      const gamesetName = gamesetTypes[playerClass.gameset].name
       const gamesetOptionIndex = acc.findIndex(
         (option) => option.label === gamesetName
       )
@@ -92,7 +92,7 @@ const ClassSelect = ({
           type={
             //TODO: figure out type
             //@ts-ignore
-            icons[selectedIconOptions?.[0]?.label] ?? 'empty'
+            icons[selectedIconOptions?.[0]?.label.replace(' ', '')] ?? 'empty'
           }
           //TODO: remove when height bug fixed in EUI
           style={{
