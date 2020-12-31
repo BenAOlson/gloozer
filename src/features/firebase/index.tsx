@@ -23,9 +23,18 @@ const defaultFirebase = firebase.initializeApp(fbConfig)
 
 //enable for local functions development
 if (isDevel) {
-  defaultFirebase.functions().useEmulator('localhost', 5001)
-  defaultFirebase.auth().useEmulator('http://localhost:9099/')
-  defaultFirebase.database().useEmulator('localhost', 9000)
+  // defaultFirebase.functions().useEmulator('localhost', 5001)
+  // defaultFirebase.auth().useEmulator('http://localhost:9099/')
+  // defaultFirebase.database().useEmulator('localhost', 9000)
+  defaultFirebase
+    .functions()
+    .useEmulator(process.env.REACT_APP_FIREBASE_FUNCTION_EMULATOR ?? '', 80)
+  defaultFirebase
+    .auth()
+    .useEmulator(process.env.REACT_APP_FIREBASE_AUTH_EMULATOR ?? '')
+  defaultFirebase
+    .database()
+    .useEmulator(process.env.REACT_APP_FIREBASE_DATABASE_EMULATOR ?? '', 80)
 }
 
 // defaultFirebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
