@@ -22,6 +22,7 @@ const ClassIcon = ({ type, ...props }: ClassIconProps) => {
   const isDefault = playerClass?.defaultUnlocked
   const color =
     isUnlocked || isDefault ? playerClasses[classIndex].color : props.color
+  const style = props.style ? { ...props.style, color } : { color }
 
   //TODO: can this typing be better?
   const euiType =
@@ -29,14 +30,7 @@ const ClassIcon = ({ type, ...props }: ClassIconProps) => {
       ? 'empty'
       : (classIcons as any)?.[type?.replace(' ', '')] ?? GiStonedSkull
 
-  return (
-    <EuiIcon
-      type={euiType}
-      color={color}
-      {...props}
-      style={props.style ? { ...props.style, color } : undefined} /* 1 */
-    />
-  )
+  return <EuiIcon type={euiType} {...props} style={style} /* 1 */ />
 }
 
 export default ClassIcon
